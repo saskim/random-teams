@@ -28,7 +28,7 @@ jobs:
         run: yarn install
 
       - name: Build
-        run: yarn run build -- --prod
+        run: yarn run build -c production
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v2
