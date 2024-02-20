@@ -1,0 +1,41 @@
+.add-player {
+  display: flex;
+  align-items: baseline;
+  justify-content: end;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    justify-content: space-around;
+  }
+}
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+
+  .player {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
+    &.header {
+      font-weight: 900;
+      .clickable {
+        cursor: pointer;
+      }
+    }
+
+    .player-name {
+      flex-grow: 1;
+    }
+    .active-toggle {
+      width: 36px;
+    }
+    .player-rating {
+      width: 120px;
+    }
+    .delete-button {
+      width: 32px;
+    }
+  }
+}

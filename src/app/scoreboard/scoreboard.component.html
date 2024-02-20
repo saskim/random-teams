@@ -1,0 +1,16 @@
+<button mat-stroked-button extended color="warn" (click)="clearScoreboard()">
+  <mat-icon>delete</mat-icon>
+  Clear scoreboard
+</button>
+<div class="scoreboard-list">
+  <div class="scoreboard-header">
+    <div class="player-position">#</div>
+    <div class="player-name">Player name</div>
+    <div class="player-score">Score</div>
+  </div>
+  <div *ngFor="let scoreboard of playerScoreboard; let $index = index" class="scoreboard-row">
+    <div class="player-position">{{ $index + 1 }}.</div>
+    <div class="player-name">{{ scoreboard.playerName }}</div>
+    <div class="player-score">{{ scoreboard.points }}</div>
+  </div>
+</div>

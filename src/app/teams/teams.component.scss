@@ -1,0 +1,70 @@
+.add-team {
+  display: flex;
+  align-items: baseline;
+  justify-content: end;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    justify-content: space-between;
+
+    mat-form-field {
+      flex-grow: 1;
+    }
+  }
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    .team-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+
+      .team-name {
+        font-size: 1.1rem;
+        font-weight: 900;
+        flex-grow: 1;
+      }
+      .active-toggle {
+        width: 36px;
+      }
+      .team-rating {
+        color: #ffca28;
+        mat-icon {
+          vertical-align: bottom;
+        }
+      }
+
+      .delete-button {
+        width: 32px;
+      }
+    }
+
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.6rem;
+      width: 100%;
+
+      .player {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  }
+}

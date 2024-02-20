@@ -1,0 +1,82 @@
+.add-tournament {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.tournaments-list {
+  display: flex;
+  flex-direction: column;
+
+  .tournaments {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    .tournament-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+
+      .tournament-title {
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+    }
+
+    .match-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.9rem;
+      width: 100%;
+      .match {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0.4rem 0;
+        padding: 0.3rem;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+
+        // .goals {
+        //   font-size: 2rem;
+        // }
+
+        .team-name {
+          background-color: #f5f5f5;
+          min-height: 36px;
+        }
+        .team {
+          width: 45%;
+          &.team2 {
+            .team-name, .players {
+              text-align: right;
+            }
+          }
+          .team-name {
+            font-size: 1.1rem;
+          }
+          .winner {
+            color: #ffca28;
+            vertical-align: text-bottom;
+            padding: 0 0.5rem;
+          }
+
+          .players {
+            color: gray;
+            &.collapsed {
+              display: none;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+
+<div class="add-tournament">
+  <div>Generate matches for {{ noOfActiveTeams() }} active teams</div>
+  <button mat-mini-fab color="primary" aria-label="Generate matches" (click)="createTournament()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+
+<div class="tournaments-list">
+  <div *ngFor="let tournaments of tournaments" class="tournaments">
+    <div class="tournament-info">
+      <div class="tournament-title">{{ tournaments.title }}</div>
+      <button mat-stroked-button extended color="warn" (click)="deleteTournament(tournaments.id)">
+        <mat-icon>delete</mat-icon>
+        Delete tournament
+      </button>
+    </div>
+    <div>Remaining {{ noOfRemainingMatches() }} of {{ noOfMatches() }} matches</div>
+    <div class="match-list">
+      <div *ngFor="let match of printableMatches()" class="match">
+        <div class="team team1" (click)="match.collapsePlayers = !match.collapsePlayers">
+          <div class="team-name">
+            {{ match.team1?.name }}
+            <mat-icon *ngIf="match.team1?.id === match.winnerTeamId" class="winner">emoji_events</mat-icon>
+          </div>
+          <div class="players" [class.collapsed]="match.collapsePlayers" *ngFor="let player of match.team1?.players">
+            <div>{{ player.name }}</div>
+          </div>
+        </div>
+        <div class="team-separator">
+          <button mat-stroked-button color="primary" (click)="openResultDialog(match)">
+            <span *ngIf="match.winnerTeamId >= 0">{{ match.team1Goals }}-{{ match.team2Goals }}</span>
+            <span *ngIf="match.winnerTeamId < 0">Result</span>
+          </button>
+        </div>
+        <div class="team team2" (click)="match.collapsePlayers = !match.collapsePlayers">
+          <div class="team-name">
+            <mat-icon *ngIf="match.team2?.id === match.winnerTeamId" class="winner">emoji_events</mat-icon>
+            {{ match.team2?.name }}
+          </div>
+          <div class="players" [class.collapsed]="match.collapsePlayers" *ngFor="let player of match.team2?.players">
+            <div>{{ player.name }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

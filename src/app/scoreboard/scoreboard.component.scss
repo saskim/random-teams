@@ -1,0 +1,33 @@
+.scoreboard-row, .scoreboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.scoreboard-header {
+  font-size: 1rem;
+  font-weight: 900;
+  .player-position {
+    width: 40px;
+  }
+  .player-name {
+    flex-grow: 1;
+  }
+}
+.scoreboard-row {
+  .player-position {
+    width: 40px;
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+  .player-name {
+    font-size: 1.1rem;
+    flex-grow: 1;
+  }
+  .player-score {
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+}

@@ -1,0 +1,15 @@
+.star-rating {
+  display: flex;
+}
+.star {
+  cursor: pointer;
+}
+
+mat-icon {
+  cursor: pointer;
+  color: #ffca28;
+}
+
+mat-icon.selected {
+  color: #ffca28;
+}
