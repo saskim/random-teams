@@ -26,6 +26,7 @@ jobs:
           action: "upload"
           app_location: "/"
           api_location: ""
+          config_file_location: src/assets
           output_location: "dist/random-teams/browser"
 
   close_pull_request_job:
