@@ -58,6 +58,7 @@ export class TeamsComponent {
       return;
     }
     await this.teamService.deleteTeam(teamId);
+    this.fetchTeams();
   }
 
   async deleteAllTeams() {
