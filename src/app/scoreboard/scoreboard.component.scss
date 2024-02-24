@@ -2,8 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .scoreboard-header {
@@ -17,6 +16,10 @@
   }
 }
 .scoreboard-row {
+  &:nth-of-type(even) {
+    background-color: #efecfc;
+  }
+  background-color: #f9f7ff;
   .player-position {
     width: 40px;
     font-size: 1.1rem;

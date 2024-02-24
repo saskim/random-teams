@@ -17,6 +17,10 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
+    &:nth-of-type(even) {
+      background-color: #efecfc;
+    }
+    background-color: #f9f7ff;
 
     &.header {
       font-weight: 900;
@@ -26,6 +30,7 @@
     }
 
     .player-name {
+      padding-left: 0.5rem;
       flex-grow: 1;
     }
     .active-toggle {
@@ -35,7 +40,7 @@
       width: 120px;
     }
     .delete-button {
-      width: 32px;
+      width: 48px;
     }
   }
 }
