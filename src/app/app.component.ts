@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { APP_VERSION } from './app-version';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class AppComponent {
   title = '';
+  version = APP_VERSION ?? '1.0.0';
 
   constructor(
     public router: Router,

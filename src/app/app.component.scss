@@ -2,10 +2,21 @@
   height: 100%;
   background-color: #ebe5fe;
 
+  .version-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
   .mat-drawer {
     min-width: 200px;
     width: 30%;
     background-color: #ebe5fe;
+
     .mdc-list {
       a {
         mat-icon {
