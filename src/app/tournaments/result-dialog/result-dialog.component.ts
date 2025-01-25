@@ -27,7 +27,6 @@ export type ResultDialogData = {
 
 @Component({
   selector: 'app-result-dialog',
-  standalone: true,
   imports: [
     FormsModule,
     MatCheckboxModule,

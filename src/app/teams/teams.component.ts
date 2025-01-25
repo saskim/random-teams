@@ -13,7 +13,6 @@ import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-teams',
-  standalone: true,
   imports: [
     CommonModule,
     MatButtonModule,

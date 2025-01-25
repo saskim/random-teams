@@ -10,7 +10,6 @@ export type PlayerScoreboard = { playerId: number, playerName: string, points: n
 
 @Component({
   selector: 'app-scoreboard',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'

@@ -27,7 +27,6 @@ export type PrintableMatch = {
 
 @Component({
   selector: 'app-tournaments',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,
@@ -37,7 +36,8 @@ export type PrintableMatch = {
     MatInputModule,
     MatListModule,
     MatSlideToggleModule,
-    FormsModule,],
+    FormsModule,
+  ],
   templateUrl: './tournaments.component.html',
   styleUrl: './tournaments.component.scss'
 })

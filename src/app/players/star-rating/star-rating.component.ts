@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-star-rating',
-  standalone: true,
   imports: [CommonModule, MatInputModule, MatFormFieldModule, MatIconModule],
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.scss'

@@ -16,7 +16,6 @@ export type Field = 'name' | 'rating' | 'isActive';
 
 @Component({
   selector: 'app-players',
-  standalone: true,
   templateUrl: './players.component.html',
   styleUrl: './players.component.scss',
   imports: [
@@ -29,7 +28,7 @@ export type Field = 'name' | 'rating' | 'isActive';
     MatSlideToggleModule,
     FormsModule,
     StarRatingComponent
-  ],
+  ]
 })
 export class PlayersComponent {
   newPlayerName: string = '';
