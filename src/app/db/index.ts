@@ -1,4 +1,5 @@
 import Dexie, { Table } from 'dexie';
+import { exportDB, ExportOptions, importInto } from 'dexie-export-import';
 
 export type PlayerRating = 1 | 2 | 3 | 4 | 5;
 
@@ -50,8 +51,8 @@ export class RandomTeamsDB extends Dexie {
   scoreboard!: Table<Scoreboard, number>;
 
   constructor() {
-    super('ngdexieliveQuery');
-    this.version(6).stores({
+    super('random-teams');
+    this.version(7).stores({
       players: '++id',
       teams: '++id',
       tournaments: '++id',
@@ -64,7 +65,6 @@ export class RandomTeamsDB extends Dexie {
   async populate() {
   }
 
-
   async resetDatabase() {
     await db.transaction('rw', 'players', 'teams', 'tournaments', 'matches', 'scoreboard', () => {
       this.players.clear();
@@ -74,6 +74,32 @@ export class RandomTeamsDB extends Dexie {
       this.scoreboard.clear();
       this.populate();
     });
+  }
+
+  async exportDatabase(options: ExportOptions): Promise<boolean> {
+    try {
+      const blob = await exportDB(db, options);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${db.name}.dexie`;
+      a.click();
+      URL.revokeObjectURL(url);
+      return true;
+    } catch (error) {
+      console.error('Error exporting database:', error);
+      return false;
+    }
+  }
+
+  async importDatabase(file: File): Promise<boolean> {
+    try {
+      await importInto(db, file, { clearTablesBeforeImport: true, acceptMissingTables: true, acceptNameDiff: true });
+      return true;
+    } catch (error) {
+      console.error('Error importing database:', error);
+      return false;
+    }
   }
 }
 

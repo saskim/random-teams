@@ -30,4 +30,16 @@ export class PlayerService {
   async deletePlayer(playerId: number) {
     await db.players.delete(playerId);
   }
+
+  async persistPlayers(): Promise<boolean | undefined> {
+    if (await db.players.count() > 0) {
+      let options = { skipTables: ['scoreboard', 'matches', 'tournaments', 'teams'] };
+      return db.exportDatabase(options);
+    }
+    return false;
+  }
+
+  async restorePlayers(file: File): Promise<boolean> {
+    return db.importDatabase(file);
+  }
 }

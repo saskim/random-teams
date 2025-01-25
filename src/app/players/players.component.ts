@@ -39,6 +39,7 @@ export class PlayersComponent {
 
   noOfActivePlayers = signal(0);
   noOfPlayers = signal(0);
+  errorMessage = signal('');
 
   constructor(private playerService: PlayerService) {}
 
@@ -101,9 +102,35 @@ export class PlayersComponent {
     }
   }
 
+  async persistPlayers() {
+    let success = await this.playerService.persistPlayers();
+    if (success) {
+      this.errorMessage.set(`Players successfylly saved to file 'random-reams.dexie'`);
+    }
+    else {
+      this.errorMessage.set("Could not persist players");
+    }
+  }
+
+  async restorePlayers(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      let success = await this.playerService.restorePlayers(file);
+      if (success) {
+        this.fetchPlayers();
+      }
+      else {
+        this.errorMessage.set("Could not restore players");
+      }
+    }
+  }
+
   private async fetchPlayers() {
     this.players = await this.playerService.getPlayers();
     this.noOfPlayers.set(this.players.length);
     this.noOfActivePlayers.set(this.players.filter((player) => player.isActive).length);
+
+    this.errorMessage.set('');
   }
 }

@@ -12,6 +12,7 @@
 
 <div class="player-list">
   <p>{{ noOfActivePlayers() }} active players of {{ noOfPlayers() }}</p>
+
   <div class="player header">
     <span class="player-name clickable" (click)="sortBy('name')">Name</span>
     <span class="player-rating clickable" (click)="sortBy('rating')">Rating</span>
@@ -36,4 +37,22 @@
       <mat-icon color="warn">delete</mat-icon>
     </button>
   </div>
+</div>
+<div class="backup-restore-players">
+  <div class="backup-players">
+    <button mat-raised-button color="primary" (click)="persistPlayers()">
+      <mat-icon>save</mat-icon>
+      Save players to file...
+    </button>
+  </div>
+  <div class="restore-players">
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      <mat-icon>upload</mat-icon>
+      Restore players from file...
+    </button>
+    <input type="file" #fileInput (change)="restorePlayers($event)" hidden />
+  </div>
+</div>
+<div class="error-message">
+  <mat-error *ngIf="errorMessage">{{ errorMessage() }}</mat-error>
 </div>
