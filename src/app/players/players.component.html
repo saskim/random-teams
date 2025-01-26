@@ -38,21 +38,30 @@
     </button>
   </div>
 </div>
+
+<div class="message">
+  <div>You can save players to a file so you can restore them later.</div>
+  <div>All other data will be lost when you restore.</div>
+  @if (message() !== '') {
+    <div class="success">{{ message() }}</div>
+  }
+  @if (error() !== '') {
+    <mat-error>{{ error() }}</mat-error>
+  }
+</div>
+
 <div class="backup-restore-players">
   <div class="backup-players">
     <button mat-raised-button color="primary" (click)="persistPlayers()">
       <mat-icon>save</mat-icon>
-      Save players to file...
+      Save players...
     </button>
   </div>
   <div class="restore-players">
     <button mat-raised-button color="primary" (click)="fileInput.click()">
       <mat-icon>upload</mat-icon>
-      Restore players from file...
+      Restore players...
     </button>
     <input type="file" #fileInput (change)="restorePlayers($event)" hidden />
   </div>
-</div>
-<div class="error-message">
-  <mat-error *ngIf="errorMessage">{{ errorMessage() }}</mat-error>
 </div>

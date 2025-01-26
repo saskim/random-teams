@@ -39,7 +39,8 @@ export class PlayersComponent {
 
   noOfActivePlayers = signal(0);
   noOfPlayers = signal(0);
-  errorMessage = signal('');
+  message = signal('You can save players to a file so you can restore them later');
+  error = signal('');
 
   constructor(private playerService: PlayerService) {}
 
@@ -103,16 +104,20 @@ export class PlayersComponent {
   }
 
   async persistPlayers() {
+    this.message.set('');
+    this.error.set('');
     let success = await this.playerService.persistPlayers();
     if (success) {
-      this.errorMessage.set(`Players successfylly saved to file 'random-reams.dexie'`);
+      this.message.set(`Players successfully saved to file 'random-teams.dexie'`);
     }
     else {
-      this.errorMessage.set("Could not persist players");
+      this.error.set("Could not save players to file");
     }
   }
 
   async restorePlayers(event: Event) {
+    this.message.set('');
+    this.error.set('');
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
@@ -121,7 +126,7 @@ export class PlayersComponent {
         this.fetchPlayers();
       }
       else {
-        this.errorMessage.set("Could not restore players");
+        this.error.set("Could not restore players");
       }
     }
   }
@@ -131,6 +136,7 @@ export class PlayersComponent {
     this.noOfPlayers.set(this.players.length);
     this.noOfActivePlayers.set(this.players.filter((player) => player.isActive).length);
 
-    this.errorMessage.set('');
+    this.message.set('');
+    this.error.set('');
   }
 }

@@ -49,6 +49,20 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 2rem;
+  margin-top: 0.8rem;
+  justify-content: space-evenly;
+}
 
+.message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f9f7ff;
+  color: #333;
+  font-weight: 700;
+  text-align: center;
+  .success {
+    color: rgb(0, 104, 3);
+    margin-top: 0.8rem;
+  }
 }
