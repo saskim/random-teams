@@ -60,6 +60,10 @@ export class RandomTeamsDB extends Dexie {
       scoreboard: '++id',
     });
     this.on('populate', () => this.populate());
+
+    if (navigator.storage?.persist) {
+      navigator.storage.persist();
+    }
   }
 
   async populate() {
