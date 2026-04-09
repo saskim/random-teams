@@ -1,6 +1,7 @@
 {
   "name": "random-teams",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.7.0",
   "engines": {
     "node": "22.13.0"
   },
