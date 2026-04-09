@@ -1,0 +1,5 @@
+[build]
+buildCommand = "yarn build"
+
+[static]
+outputDir = "dist/random-teams/browser"
