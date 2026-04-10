@@ -24,8 +24,8 @@
     "@angular/platform-browser": "^21.2.8",
     "@angular/platform-browser-dynamic": "^21.2.8",
     "@angular/router": "^21.2.8",
-    "dexie": "^3.2.5",
-    "dexie-export-import": "^4.1.4",
+    "dexie": "^4.4.2",
+    "dexie-export-import": "^4.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

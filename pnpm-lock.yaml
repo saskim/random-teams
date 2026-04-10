@@ -39,11 +39,11 @@ importers:
         specifier: ^21.2.8
         version: 21.2.8(@angular/common@21.2.8(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.8(@angular/animations@21.2.8(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.8(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.8(@angular/compiler@21.2.8)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       dexie:
-        specifier: ^3.2.5
-        version: 3.2.7
+        specifier: ^4.4.2
+        version: 4.4.2
       dexie-export-import:
-        specifier: ^4.1.4
-        version: 4.4.0(dexie@3.2.7)
+        specifier: ^4.4.0
+        version: 4.4.0(dexie@4.4.2)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -2712,9 +2712,8 @@ packages:
     peerDependencies:
       dexie: ^4.4.0
 
-  dexie@3.2.7:
-    resolution: {integrity: sha512-2a+BXvVhY5op+smDRLxeBAivE7YcYaneXJ1la3HOkUfX9zKkE/AJ8CNgjiXbtXepFyFmJNGSbmjOwqbT749r/w==}
-    engines: {node: '>=6.0'}
+  dexie@4.4.2:
+    resolution: {integrity: sha512-zMtV8q79EFE5U8FKZvt0Y/77PCU/Hr/RDxv1EDeo228L+m/HTbeN2AjoQm674rhQCX8n3ljK87lajt7UQuZfvw==}
 
   di@0.0.1:
     resolution: {integrity: sha512-uJaamHkagcZtHPqCIHZxnFrXlunQXgBOsZSUOWwFw31QJCAbyTBoHMW75YOTur5ZNx8pIeAKgf6GWIgaqqiLhA==}
@@ -7474,11 +7473,11 @@ snapshots:
 
   detect-node@2.1.0: {}
 
-  dexie-export-import@4.4.0(dexie@3.2.7):
+  dexie-export-import@4.4.0(dexie@4.4.2):
     dependencies:
-      dexie: 3.2.7
+      dexie: 4.4.2
 
-  dexie@3.2.7: {}
+  dexie@4.4.2: {}
 
   di@0.0.1: {}
 

@@ -70,7 +70,7 @@ export class RandomTeamsDB extends Dexie {
   }
 
   async resetDatabase() {
-    await db.transaction('rw', 'players', 'teams', 'tournaments', 'matches', 'scoreboard', () => {
+    await db.transaction('rw', [db.players, db.teams, db.tournaments, db.matches, db.scoreboard], () => {
       this.players.clear();
       this.teams.clear();
       this.tournaments.clear();
