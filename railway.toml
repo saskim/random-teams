@@ -1,5 +1,6 @@
 [build]
-buildCommand = "yarn build"
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
 
-[static]
-outputDir = "dist/random-teams/browser"
+[deploy]
+restartPolicyType = "on_failure"
