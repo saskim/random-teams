@@ -1,8 +1,10 @@
 <div class="star-rating">
-  <mat-icon *ngFor="let star of stars"
-            class="star"
-            [class.selected]="star < rating"
-            (click)="setRating(star)">
-    {{ star <= rating ? 'star' : 'star_border' }}
-  </mat-icon>
+  @for (star of stars; track star) {
+    <mat-icon
+      class="star"
+      [class.selected]="star < rating"
+      (click)="setRating(star)">
+      {{ star <= rating ? 'star' : 'star_border' }}
+    </mat-icon>
+  }
 </div>

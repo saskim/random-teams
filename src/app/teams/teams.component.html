@@ -16,26 +16,30 @@
 </button>
 
 <div class="team-list">
-  <div *ngFor="let team of teams" class="team">
-    <div class="team-info">
-      <div class="team-name">{{ team.name }}
-        <span class="team-rating"><mat-icon>star</mat-icon> {{ team.averageRating }}</span>
+  @for (team of teams; track team) {
+    <div class="team">
+      <div class="team-info">
+        <div class="team-name">{{ team.name }}
+          <span class="team-rating"><mat-icon>star</mat-icon> {{ team.averageRating }}</span>
+        </div>
+        <mat-slide-toggle
+          class="active-toggle"
+          color="primary"
+          name="teamIsActive"
+          [checked]="team.isActive"
+          (click)="updateTeamIsActive(team)">
+        </mat-slide-toggle>
+        <button class="delete-button" mat-icon-button (click)="deleteTeam(team.id)">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
       </div>
-      <mat-slide-toggle
-        class="active-toggle"
-        color="primary"
-        name="teamIsActive"
-        [checked]="team.isActive"
-        (click)="updateTeamIsActive(team)">
-      </mat-slide-toggle>
-      <button class="delete-button" mat-icon-button (click)="deleteTeam(team.id)">
-        <mat-icon color="warn">delete</mat-icon>
-      </button>
-    </div>
-    <div class="player-list">
-      <div *ngFor="let player of team.players" class="player">
-        <span class="player-name">{{ player.name }}</span>
+      <div class="player-list">
+        @for (player of team.players; track player) {
+          <div class="player">
+            <span class="player-name">{{ player.name }}</span>
+          </div>
+        }
       </div>
     </div>
-  </div>
+  }
 </div>

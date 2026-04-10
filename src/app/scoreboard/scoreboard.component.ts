@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { ScoreboardService } from '../services/scoreboard.service';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Player } from '../db';
@@ -10,7 +10,7 @@ export type PlayerScoreboard = { playerId: number, playerName: string, points: n
 
 @Component({
   selector: 'app-scoreboard',
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'
 })

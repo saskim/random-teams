@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,7 +28,6 @@ export type PrintableMatch = {
 @Component({
   selector: 'app-tournaments',
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -36,8 +35,8 @@ export type PrintableMatch = {
     MatInputModule,
     MatListModule,
     MatSlideToggleModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './tournaments.component.html',
   styleUrl: './tournaments.component.scss'
 })

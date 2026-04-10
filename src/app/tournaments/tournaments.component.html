@@ -8,42 +8,58 @@
 </div>
 
 <div class="tournaments-list">
-  <div *ngFor="let tournaments of tournaments" class="tournaments">
-    <div class="tournament-info">
-      <div class="tournament-title">{{ tournaments.title }}</div>
-      <button mat-stroked-button extended color="warn" (click)="deleteTournament(tournaments.id)">
-        <mat-icon>delete</mat-icon>
-        Delete tournament
-      </button>
-    </div>
-    <div>Remaining {{ noOfRemainingMatches() }} of {{ noOfMatches() }} matches</div>
-    <div class="match-list">
-      <div *ngFor="let match of printableMatches()" class="match">
-        <div class="team team1" (click)="match.collapsePlayers = !match.collapsePlayers">
-          <div class="team-name">
-            {{ match.team1?.name }}
-            <mat-icon *ngIf="match.team1?.id === match.winnerTeamId" class="winner">emoji_events</mat-icon>
+  @for (tournaments of tournaments; track tournaments) {
+    <div class="tournaments">
+      <div class="tournament-info">
+        <div class="tournament-title">{{ tournaments.title }}</div>
+        <button mat-stroked-button extended color="warn" (click)="deleteTournament(tournaments.id)">
+          <mat-icon>delete</mat-icon>
+          Delete tournament
+        </button>
+      </div>
+      <div>Remaining {{ noOfRemainingMatches() }} of {{ noOfMatches() }} matches</div>
+      <div class="match-list">
+        @for (match of printableMatches(); track match) {
+          <div class="match">
+            <div class="team team1" (click)="match.collapsePlayers = !match.collapsePlayers">
+              <div class="team-name">
+                {{ match.team1?.name }}
+                @if (match.team1?.id === match.winnerTeamId) {
+                  <mat-icon class="winner">emoji_events</mat-icon>
+                }
+              </div>
+              @for (player of match.team1?.players; track player) {
+                <div class="players" [class.collapsed]="match.collapsePlayers">
+                  <div>{{ player.name }}</div>
+                </div>
+              }
+            </div>
+            <div class="team-separator">
+              <button mat-stroked-button color="primary" (click)="openResultDialog(match)">
+                @if (match.winnerTeamId >= 0) {
+                  <span>{{ match.team1Goals }}-{{ match.team2Goals }}</span>
+                }
+                @if (match.winnerTeamId < 0) {
+                  <span>Result</span>
+                }
+              </button>
+            </div>
+            <div class="team team2" (click)="match.collapsePlayers = !match.collapsePlayers">
+              <div class="team-name">
+                @if (match.team2?.id === match.winnerTeamId) {
+                  <mat-icon class="winner">emoji_events</mat-icon>
+                }
+                {{ match.team2?.name }}
+              </div>
+              @for (player of match.team2?.players; track player) {
+                <div class="players" [class.collapsed]="match.collapsePlayers">
+                  <div>{{ player.name }}</div>
+                </div>
+              }
+            </div>
           </div>
-          <div class="players" [class.collapsed]="match.collapsePlayers" *ngFor="let player of match.team1?.players">
-            <div>{{ player.name }}</div>
-          </div>
-        </div>
-        <div class="team-separator">
-          <button mat-stroked-button color="primary" (click)="openResultDialog(match)">
-            <span *ngIf="match.winnerTeamId >= 0">{{ match.team1Goals }}-{{ match.team2Goals }}</span>
-            <span *ngIf="match.winnerTeamId < 0">Result</span>
-          </button>
-        </div>
-        <div class="team team2" (click)="match.collapsePlayers = !match.collapsePlayers">
-          <div class="team-name">
-            <mat-icon *ngIf="match.team2?.id === match.winnerTeamId" class="winner">emoji_events</mat-icon>
-            {{ match.team2?.name }}
-          </div>
-          <div class="players" [class.collapsed]="match.collapsePlayers" *ngFor="let player of match.team2?.players">
-            <div>{{ player.name }}</div>
-          </div>
-        </div>
+        }
       </div>
     </div>
-  </div>
+  }
 </div>

@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StarRatingComponent } from "./star-rating/star-rating.component";
 
@@ -19,7 +19,6 @@ export type Field = 'name' | 'rating' | 'isActive';
   templateUrl: './players.component.html',
   styleUrl: './players.component.scss',
   imports: [
-    CommonModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -28,7 +27,7 @@ export type Field = 'name' | 'rating' | 'isActive';
     MatSlideToggleModule,
     FormsModule,
     StarRatingComponent
-  ]
+]
 })
 export class PlayersComponent {
   newPlayerName: string = '';

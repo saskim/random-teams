@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,15 +14,14 @@ import { PlayerService } from '../services/player.service';
 @Component({
   selector: 'app-teams',
   imports: [
-    CommonModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
     MatSlideToggleModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.scss'
 })

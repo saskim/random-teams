@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerRating } from '../../db';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-star-rating',
-  imports: [CommonModule, MatInputModule, MatFormFieldModule, MatIconModule],
+  imports: [MatInputModule, MatFormFieldModule, MatIconModule],
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.scss'
 })
