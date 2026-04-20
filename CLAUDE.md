@@ -43,7 +43,7 @@ src/app/
 
 ## Branching Strategy
 
-- `main` — production; protected, no direct pushes
+- `main` — production; protected, no direct pushes or commits
 - `feature/<short-description>` — new features
 - `fix/<short-description>` — bug fixes
 - `chore/<short-description>` — deps, tooling, config
