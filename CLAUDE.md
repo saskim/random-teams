@@ -58,12 +58,41 @@ src/app/
 ## Worktrees
 
 When creating a worktree, use the branching convention if the work is clear:
+
 ```bash
 claude --worktree feat/add-tournament-bracket
 claude --worktree fix/player-score-reset
 claude --worktree chore/upgrade-angular
 ```
+
 If the scope isn't clear yet, omit the name and let Claude generate a random one. Rename the branch before opening a PR.
+
+## Testing
+
+### Commands
+
+```bash
+pnpm test                                              # interactive (Karma/Chrome, watch mode)
+ng test --watch=false --browsers=ChromeHeadless        # headless single run (CI / hooks)
+```
+
+### Conventions
+
+- Co-located `.spec.ts` files — one per source file
+- Test **behaviour and logic**, not implementation details or that a class instantiates
+- Services wrap Dexie directly — stub the `db` import or use a fake IndexedDB rather than calling the real database
+- Components: test public methods and computed properties (e.g. getters); avoid asserting on DOM structure
+- Claude writes tests alongside any logic it adds or changes — do not ship untested logic
+
+### What to test
+
+Focus on code that contains decisions or calculations:
+
+- **`TeamsComponent`** — `noOfTeamsToGenerate` getter, `generateRandomTeams` distribution logic, `initializeTeams` naming
+- **`TeamService.getTeams`** — `totalRating` and `averageRating` calculations
+- **`TournamentService.deleteTournament`** — verify associated matches are also deleted
+
+Pure Dexie CRUD delegations (add/update/delete with no logic) do not need unit tests.
 
 ## Deployment
 
