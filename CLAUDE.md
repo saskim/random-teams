@@ -94,6 +94,31 @@ Focus on code that contains decisions or calculations:
 
 Pure Dexie CRUD delegations (add/update/delete with no logic) do not need unit tests.
 
+## Visual / E2E Testing
+
+### Commands
+
+```bash
+pnpm e2e                  # run Playwright smoke + visual + analysis tests
+pnpm e2e:update           # update snapshot baselines after intentional UI changes
+pnpm exec playwright show-report   # open last HTML report in browser
+```
+
+### How it works
+
+- `e2e/smoke.spec.ts` — navigates all 4 routes, asserts titles, and compares screenshots against baselines (`toHaveScreenshot`)
+- `e2e/analyse.spec.ts` — captures fresh screenshots and sends them to Claude for visual review; skipped if `ANTHROPIC_API_KEY` is not set
+- First run creates snapshot baselines; subsequent runs diff against them
+- On failure the hook opens the HTML report in the browser showing side-by-side diffs
+
+### When the hook runs visual tests
+
+The `on-stop` hook only runs Playwright when `*.component.{html,ts,scss}` files are modified. For unrelated changes (services, tests, config) it is skipped.
+
+### Updating baselines
+
+Run `pnpm e2e:update` after intentional UI changes to accept the new screenshots as the new baseline.
+
 ## Deployment
 
 - **Platform**: Railway — auto-deploys on push to `main` via GitHub integration
