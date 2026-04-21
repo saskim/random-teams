@@ -119,8 +119,39 @@ The `on-stop` hook only runs Playwright when `*.component.{html,ts,scss}` files 
 
 Run `pnpm e2e:update` after intentional UI changes to accept the new screenshots as the new baseline.
 
-## Deployment
+## Git Hooks
 
-- **Platform**: Railway — auto-deploys on push to `main` via GitHub integration
-- **Build**: Docker (`railway.toml` + `Dockerfile`)
-- Build output: `dist/random-teams/browser/`
+Hooks live in `.githooks/` and are activated by `pnpm prepare` (runs automatically after `pnpm install`).
+
+| Hook         | When it runs        | What it does                                                        |
+| ------------ | ------------------- | ------------------------------------------------------------------- |
+| `commit-msg` | Every commit        | Validates conventional commit format (`type: description`)          |
+| `pre-push`   | Push to `main` only | Runs full test suite + production build; blocks the push on failure |
+
+After cloning, run `pnpm install` (or `pnpm prepare`) once to activate the hooks.
+
+### Conventional commit types
+
+`feat` · `fix` · `chore` · `docs` · `style` · `refactor` · `perf` · `test` · `build` · `ci` · `revert`
+
+## CI / CD
+
+### CI (GitHub Actions — `.github/workflows/ci.yml`)
+
+Runs on every push and PR targeting `main`:
+
+1. Install dependencies (`pnpm install --frozen-lockfile`)
+2. Lint (`pnpm lint`)
+3. Build (`pnpm build`)
+4. Unit tests headless (`ng test --watch=false --browsers=ChromeHeadless`)
+
+All steps must pass before a PR can be merged.
+
+### Deploy (Railway)
+
+- **Platform**: Railway — auto-deploys on push to `main` via GitHub integration (no GitHub Actions step needed)
+- **Build**: Docker — `railway.toml` points to `Dockerfile`
+- **Runtime**: Node + `serve` on port 8080 (set via `PORT` env var in Railway)
+- Build output served: `dist/random-teams/browser/`
+- No secrets or env vars are required for the app itself (it runs entirely client-side)
+- `ANTHROPIC_API_KEY` is only used locally for the Playwright `analyse.spec.ts` test — it is not needed at build or runtime on Railway

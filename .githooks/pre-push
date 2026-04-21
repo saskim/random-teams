@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Runs full test + build before pushing to main
+set -euo pipefail
+
+remote="$1"
+url="$2"
+
+pushing_to_main=false
+while read local_ref local_sha remote_ref remote_sha; do
+  if [[ "$remote_ref" == "refs/heads/main" ]]; then
+    pushing_to_main=true
+    break
+  fi
+done
+
+if ! $pushing_to_main; then
+  exit 0
+fi
+
+echo ""
+echo "  Pushing to main — running tests and build..."
+echo ""
+
+ng test --watch=false --browsers=ChromeHeadless || {
+  echo ""
+  echo "  ✗ Tests failed. Push to main blocked."
+  echo ""
+  exit 1
+}
+
+ng build --configuration production || {
+  echo ""
+  echo "  ✗ Build failed. Push to main blocked."
+  echo ""
+  exit 1
+}
+
+echo ""
+echo "  ✓ Tests and build passed."
+echo ""
