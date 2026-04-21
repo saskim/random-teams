@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/after-edit.sh"
+            "command": "node .claude/hooks/after-edit.mjs"
           }
         ]
       }
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/on-stop.sh"
+            "command": "node .claude/hooks/on-stop.mjs"
           }
         ]
       }
