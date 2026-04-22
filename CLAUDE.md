@@ -7,7 +7,7 @@
 - **Database**: Dexie (IndexedDB wrapper) with dexie-export-import
 - **State**: RxJS services
 - **Testing**: Karma + Jasmine
-- **Package manager**: pnpm (use `pnpm`, never `npm` or `yarn`)
+- **Package manager**: pnpm — enforced via `"packageManager"` field in `package.json`; never use `npm` or `yarn`
 - **Language**: TypeScript
 
 ## Key Commands
@@ -44,7 +44,7 @@ src/app/
 ## Branching Strategy
 
 - `main` — production; protected, no direct pushes or commits
-- `feature/<short-description>` — new features
+- `feat/<short-description>` — new features
 - `fix/<short-description>` — bug fixes
 - `chore/<short-description>` — deps, tooling, config
 
@@ -71,7 +71,7 @@ If the scope isn't clear yet, omit the name and let Claude generate a random one
 
 ### Typical workflow
 
-1. **Branch** — start on a `feature/`, `fix/`, or `chore/` branch (worktree or plain checkout).
+1. **Branch** — start on a `feat/`, `fix/`, or `chore/` branch (worktree or plain checkout).
 2. **Code + tests** — Claude writes logic and the accompanying `.spec.ts` tests in the same pass. No untested logic ships.
 3. **Hooks run automatically** — `after-edit` lints on every file save; `on-stop` runs Playwright when component files change.
 4. **Self-review** — before opening a PR, run `/review` to have Claude check the diff for issues, gaps in test coverage, and CLAUDE.md convention violations.
@@ -164,7 +164,7 @@ After cloning, run `pnpm install` (or `pnpm prepare`) once to activate the hooks
 
 - **type** (required): `feat` · `fix` · `chore` · `docs` · `style` · `refactor` · `perf` · `test` · `build` · `ci` · `revert`
 - **scope** (optional): lowercase, in parentheses — names the affected area, e.g. `(players)`, `(teams)`
-- **description**: max 100 characters; sentence-case, no trailing period
+- **description**: max 100 characters; lowercase imperative, no trailing period
 
 Examples:
 
