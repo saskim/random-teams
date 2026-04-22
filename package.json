@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "packageManager": "pnpm@10.7.0",
   "engines": {
-    "node": "22.13.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "private": true,
   "dependencies": {
@@ -32,15 +36,24 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.7",
+    "@angular-eslint/builder": "21.3.1",
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.8",
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.59.1",
     "@types/jasmine": "~6.0.0",
+    "angular-eslint": "21.3.1",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
     "jasmine-core": "~6.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.2.0",
-    "typescript": "~5.9.3"
+    "prettier": "^3.8.3",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "8.56.1"
   }
 }

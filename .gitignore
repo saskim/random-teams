@@ -28,6 +28,10 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Playwright
+/playwright-report
+/test-results
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -40,4 +44,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-.claude
+.claude/worktrees
+memory/

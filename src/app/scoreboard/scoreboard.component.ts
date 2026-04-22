@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { ScoreboardService } from '../services/scoreboard.service';
 
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Player } from '../db';
 
-export type PlayerScoreboard = { playerId: number, playerName: string, points: number };
+export interface PlayerScoreboard { playerId: number, playerName: string, points: number }
 
 @Component({
   selector: 'app-scoreboard',
@@ -14,7 +14,7 @@ export type PlayerScoreboard = { playerId: number, playerName: string, points: n
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss'
 })
-export class ScoreboardComponent {
+export class ScoreboardComponent implements OnInit {
   playerScoreboard: PlayerScoreboard[] = [];
   private players: Player[] = [];
 

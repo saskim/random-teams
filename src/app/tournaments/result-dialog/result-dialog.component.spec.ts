@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ResultDialogComponent } from './result-dialog.component';
 
@@ -8,10 +9,13 @@ describe('ResultDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResultDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [ResultDialogComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ResultDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

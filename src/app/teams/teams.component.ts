@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,11 +25,11 @@ import { PlayerService } from '../services/player.service';
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.scss'
 })
-export class TeamsComponent {
+export class TeamsComponent implements OnInit {
   teams: TeamWithRating[] = [];
   activePlayers: Player[] = [];
-  noOfActivePlayers: number = 0;
-  noOfPlayersOnEachTeam: number = 5;
+  noOfActivePlayers = 0;
+  noOfPlayersOnEachTeam = 5;
 
   constructor(private teamService: TeamService, private playerService: PlayerService) {}
 

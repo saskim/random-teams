@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { Player, PlayerRating } from '../db';
 import { PlayerService } from '../services/player.service';
 
@@ -29,8 +29,8 @@ export type Field = 'name' | 'rating' | 'isActive';
     StarRatingComponent
 ]
 })
-export class PlayersComponent {
-  newPlayerName: string = '';
+export class PlayersComponent implements OnInit {
+  newPlayerName = '';
   newPlayerRanking: PlayerRating = 3;
   players: Player[] = [];
 
@@ -105,7 +105,7 @@ export class PlayersComponent {
   async persistPlayers() {
     this.message.set('');
     this.error.set('');
-    let success = await this.playerService.persistPlayers();
+    const success = await this.playerService.persistPlayers();
     if (success) {
       this.message.set(`Players successfully saved to file 'random-teams.dexie'`);
     }
@@ -120,7 +120,7 @@ export class PlayersComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      let success = await this.playerService.restorePlayers(file);
+      const success = await this.playerService.restorePlayers(file);
       if (success) {
         this.fetchPlayers();
       }

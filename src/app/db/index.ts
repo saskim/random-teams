@@ -3,14 +3,14 @@ import { exportDB, ExportOptions, importInto } from 'dexie-export-import';
 
 export type PlayerRating = 1 | 2 | 3 | 4 | 5;
 
-export type Player = {
+export interface Player {
   id?: number;
   name: string;
   rating: PlayerRating;
   isActive: boolean;
 }
 
-export type Team = {
+export interface Team {
   id?: number;
   name: string;
   players: Player[];
@@ -18,13 +18,13 @@ export type Team = {
 }
 export type TeamWithRating = Team & { totalRating: number, averageRating: number };
 
-export type Tournament = {
+export interface Tournament {
   id?: number;
   title: string;
   done?: boolean;
 }
 
-export type Match = {
+export interface Match {
   id?: number;
   teamId1: number;
   teamId2: number;
@@ -35,7 +35,7 @@ export type Match = {
   done: boolean;
 }
 
-export type Scoreboard = {
+export interface Scoreboard {
   id?: number;
   playerId: number;
   tournamentId: number;

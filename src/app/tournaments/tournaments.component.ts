@@ -1,5 +1,5 @@
 
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +15,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ResultDialogComponent, ResultDialogData } from './result-dialog/result-dialog.component';
 import { ScoreboardService } from '../services/scoreboard.service';
 
-export type PrintableMatch = {
+export interface PrintableMatch {
   id?: number
   team1?: Team;
   team2?: Team;
@@ -40,7 +40,7 @@ export type PrintableMatch = {
   templateUrl: './tournaments.component.html',
   styleUrl: './tournaments.component.scss'
 })
-export class TournamentsComponent {
+export class TournamentsComponent implements OnInit {
   teams: Team[] = [];
   tournaments: Tournament[] = [];
   matches: Match[] = [];

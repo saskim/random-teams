@@ -13,7 +13,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-export type ResultDialogData = {
+export interface ResultDialogData {
   tournamentId: number
   matchId: number;
   team1Id: number;
