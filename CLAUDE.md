@@ -67,6 +67,32 @@ claude --worktree chore/upgrade-angular
 
 If the scope isn't clear yet, omit the name and let Claude generate a random one. Rename the branch before opening a PR.
 
+## Claude in the PR Flow
+
+### Typical workflow
+
+1. **Branch** — start on a `feature/`, `fix/`, or `chore/` branch (worktree or plain checkout).
+2. **Code + tests** — Claude writes logic and the accompanying `.spec.ts` tests in the same pass. No untested logic ships.
+3. **Hooks run automatically** — `after-edit` lints on every file save; `on-stop` runs Playwright when component files change.
+4. **Self-review** — before opening a PR, run `/review` to have Claude check the diff for issues, gaps in test coverage, and CLAUDE.md convention violations.
+5. **Open the PR** — Claude creates it with `gh pr create`, following the title convention (`type: description`) and including a summary + test plan in the body.
+6. **CI gate** — GitHub Actions must go green (lint → build → tests) before merge.
+7. **Merge** — merge commit into `main`; Railway auto-deploys.
+
+### What Claude does vs. what you decide
+
+| Claude handles                     | You decide                                     |
+| ---------------------------------- | ---------------------------------------------- |
+| Writing code and tests             | Whether the feature is the right one to build  |
+| Conventional commit messages       | Whether the PR scope is correct                |
+| PR description and test plan       | Approving and merging the PR                   |
+| Running and interpreting CI output | Accepting or rejecting visual snapshot changes |
+
+### Useful slash commands in this project
+
+- `/review` — review the current branch diff before opening a PR
+- `/security-review` — check pending changes for security issues
+
 ## Testing
 
 ### Commands
