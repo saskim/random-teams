@@ -156,9 +156,25 @@ Hooks live in `.githooks/` and are activated by `pnpm prepare` (runs automatical
 
 After cloning, run `pnpm install` (or `pnpm prepare`) once to activate the hooks.
 
-### Conventional commit types
+### Conventional commit format
 
-`feat` · `fix` · `chore` · `docs` · `style` · `refactor` · `perf` · `test` · `build` · `ci` · `revert`
+```
+<type>[optional scope]: <description>
+```
+
+- **type** (required): `feat` · `fix` · `chore` · `docs` · `style` · `refactor` · `perf` · `test` · `build` · `ci` · `revert`
+- **scope** (optional): lowercase, in parentheses — names the affected area, e.g. `(players)`, `(teams)`
+- **description**: max 100 characters; sentence-case, no trailing period
+
+Examples:
+
+```
+feat: add tournament bracket view
+fix(players): prevent duplicate names
+chore: upgrade angular to v22
+```
+
+Merge commits are exempt. All other commits are validated by the `commit-msg` hook.
 
 ## CI / CD
 
