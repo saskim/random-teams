@@ -33,7 +33,7 @@ export class PlayerService {
 
   async persistPlayers(): Promise<boolean | undefined> {
     if (await db.players.count() > 0) {
-      let options = { skipTables: ['scoreboard', 'matches', 'tournaments', 'teams'] };
+      const options = { skipTables: ['scoreboard', 'matches', 'tournaments', 'teams'] };
       return db.exportDatabase(options);
     }
     return false;
