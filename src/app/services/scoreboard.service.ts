@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Scoreboard, db } from '../db';
+
+import { db,type Scoreboard } from '../db';
 
 @Injectable({
   providedIn: 'root',

@@ -4,17 +4,27 @@ const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 const prettier = require('eslint-config-prettier');
+const simpleImportSort = require('eslint-plugin-simple-import-sort');
 
 module.exports = defineConfig([
   {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
-      tseslint.configs.recommended,
-      tseslint.configs.stylistic,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
       angular.configs.tsRecommended,
       prettier,
     ],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/directive-selector': [
@@ -33,6 +43,8 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
+
+      // ── Pre-existing debt (TODO: fix in fix/lint-errors) ────────────────
       // TODO(fix/lint-errors): migrate constructor injection to inject()
       '@angular-eslint/prefer-inject': 'warn',
       // TODO(fix/lint-errors): replace empty constructors
@@ -45,6 +57,61 @@ module.exports = defineConfig([
       '@typescript-eslint/no-explicit-any': 'warn',
       // TODO(fix/lint-errors): fix useless assignments
       'no-useless-assignment': 'warn',
+
+      // ── Type safety ──────────────────────────────────────────────────────
+      // TODO(fix/lint-errors): await or void unhandled promises
+      '@typescript-eslint/no-floating-promises': 'warn',
+      // TODO(fix/lint-errors): fix async callbacks in void contexts
+      '@typescript-eslint/no-misused-promises': 'warn',
+      '@typescript-eslint/prefer-readonly': 'error',
+      // TODO(fix/lint-errors): remove require-await violations (async fns without await)
+      '@typescript-eslint/require-await': 'warn',
+      // TODO(fix/lint-errors): unsafe operations downstream of any — fix no-explicit-any first
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      '@typescript-eslint/no-unsafe-return': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      // TODO(fix/lint-errors): prefer ?? over || where applicable
+      '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+
+      // ── Imports ──────────────────────────────────────────────────────────
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+      ],
+
+      // ── Member ordering (public before private, fields before methods) ───
+      // TODO(fix/lint-errors): reorder class members to match ordering rule
+      '@typescript-eslint/member-ordering': [
+        'warn',
+        {
+          default: [
+            'public-static-field',
+            'protected-static-field',
+            'private-static-field',
+            'public-instance-field',
+            'protected-instance-field',
+            'private-instance-field',
+            'public-constructor',
+            'protected-constructor',
+            'private-constructor',
+            'public-instance-method',
+            'protected-instance-method',
+            'private-instance-method',
+            'public-static-method',
+            'protected-static-method',
+            'private-static-method',
+          ],
+        },
+      ],
+
+      // ── Angular lifecycle ─────────────────────────────────────────────────
+      '@angular-eslint/no-empty-lifecycle-method': 'error',
+      '@angular-eslint/use-lifecycle-interface': 'error',
+
+      // ── General quality ──────────────────────────────────────────────────
+      eqeqeq: ['error', 'always'],
     },
   },
   {

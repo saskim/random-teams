@@ -1,5 +1,5 @@
-import Dexie, { Table } from 'dexie';
-import { exportDB, ExportOptions, importInto } from 'dexie-export-import';
+import Dexie, { type Table } from 'dexie';
+import { exportDB, type ExportOptions, importInto } from 'dexie-export-import';
 
 export type PlayerRating = 1 | 2 | 3 | 4 | 5;
 

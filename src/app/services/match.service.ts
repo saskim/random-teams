@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Match, db } from '../db';
+
+import { db,type Match } from '../db';
 
 @Injectable({
   providedIn: 'root',

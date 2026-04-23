@@ -1,18 +1,19 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, inject,type OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Match, Scoreboard, Team, Tournament } from '../db';
-import { TournamentService } from '../services/tournament.service';
-import { TeamService } from '../services/team.service';
+
+import { type Match, type Scoreboard, type Team, type Tournament } from '../db';
 import { MatchService } from '../services/match.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ResultDialogComponent, ResultDialogData } from './result-dialog/result-dialog.component';
 import { ScoreboardService } from '../services/scoreboard.service';
+import { TeamService } from '../services/team.service';
+import { TournamentService } from '../services/tournament.service';
+import { ResultDialogComponent, type ResultDialogData } from './result-dialog/result-dialog.component';
 
 export interface PrintableMatch {
   id?: number;
@@ -91,7 +92,7 @@ export class TournamentsComponent implements OnInit {
   }
 
   async updateResult(result?: ResultDialogData) {
-    if (result === undefined || result.matchId === undefined) {
+    if (result?.matchId === undefined) {
       return;
     }
 

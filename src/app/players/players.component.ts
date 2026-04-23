@@ -1,15 +1,14 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
-import { Player, PlayerRating } from '../db';
-import { PlayerService } from '../services/player.service';
-
+import { Component, inject,type OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormsModule } from '@angular/forms';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { type Player, type PlayerRating } from '../db';
+import { PlayerService } from '../services/player.service';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 
 export type Field = 'name' | 'rating' | 'isActive';
@@ -68,7 +67,7 @@ export class PlayersComponent implements OnInit {
   }
 
   updatePlayerIsActive(player: Player) {
-    if (player === undefined || player.id === undefined) {
+    if (player?.id === undefined) {
       return;
     }
     player.isActive = !player.isActive;
@@ -78,7 +77,7 @@ export class PlayersComponent implements OnInit {
   }
 
   updatePlayerRating(player: Player, newRating: PlayerRating) {
-    if (player === undefined || player.id === undefined) {
+    if (player?.id === undefined) {
       return;
     }
     player.rating = newRating;

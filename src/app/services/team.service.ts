@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Team, TeamWithRating, db } from '../db';
+
+import { db,type Team, type TeamWithRating } from '../db';
 
 @Injectable({
   providedIn: 'root',

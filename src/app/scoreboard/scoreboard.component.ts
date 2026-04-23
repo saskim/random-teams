@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject,type OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
+import { type Player } from '../db';
 import { PlayerService } from '../services/player.service';
 import { ScoreboardService } from '../services/scoreboard.service';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { Player } from '../db';
 
 export interface PlayerScoreboard {
   playerId: number;

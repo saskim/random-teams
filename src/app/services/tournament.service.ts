@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Tournament, db } from '../db';
+
+import { db,type Tournament } from '../db';
 
 @Injectable({
   providedIn: 'root',

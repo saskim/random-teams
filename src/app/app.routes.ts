@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router';
+import { type Routes } from '@angular/router';
+
 import { PlayersComponent } from './players/players.component';
-import { TournamentsComponent } from './tournaments/tournaments.component';
-import { TeamsComponent } from './teams/teams.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { TeamsComponent } from './teams/teams.component';
+import { TournamentsComponent } from './tournaments/tournaments.component';
 
 export const routes: Routes = [
   {
