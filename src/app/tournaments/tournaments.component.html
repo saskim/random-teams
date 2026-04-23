@@ -1,10 +1,8 @@
-
 <div class="add-tournament">
   <div>Generate matches for {{ noOfActiveTeams() }} active teams</div>
   <button mat-mini-fab color="primary" aria-label="Generate matches" (click)="createTournament()">
     <mat-icon>add</mat-icon>
   </button>
-
 </div>
 
 <div class="tournaments-list">
@@ -21,7 +19,13 @@
       <div class="match-list">
         @for (match of printableMatches(); track match) {
           <div class="match">
-            <div class="team team1" (click)="match.collapsePlayers = !match.collapsePlayers">
+            <div
+              class="team team1"
+              role="button"
+              tabindex="0"
+              (click)="match.collapsePlayers = !match.collapsePlayers"
+              (keyup.enter)="match.collapsePlayers = !match.collapsePlayers"
+            >
               <div class="team-name">
                 {{ match.team1?.name }}
                 @if (match.team1?.id === match.winnerTeamId) {
@@ -44,7 +48,13 @@
                 }
               </button>
             </div>
-            <div class="team team2" (click)="match.collapsePlayers = !match.collapsePlayers">
+            <div
+              class="team team2"
+              role="button"
+              tabindex="0"
+              (click)="match.collapsePlayers = !match.collapsePlayers"
+              (keyup.enter)="match.collapsePlayers = !match.collapsePlayers"
+            >
               <div class="team-name">
                 @if (match.team2?.id === match.winnerTeamId) {
                   <mat-icon class="winner">emoji_events</mat-icon>

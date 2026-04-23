@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Tournament, db } from '../db';
+
+import { db, type Tournament } from '../db';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TournamentService {
-
-  constructor() { }
-
   async getTournament(tournamentId: number): Promise<Tournament | undefined> {
-    return await db.tournaments.filter(tournament => tournament.id === tournamentId).first();
+    return await db.tournaments.filter((tournament) => tournament.id === tournamentId).first();
   }
 
   async getTournaments(): Promise<Tournament[]> {
@@ -26,6 +24,6 @@ export class TournamentService {
 
   async deleteTournament(tournamentId: number) {
     await db.tournaments.delete(tournamentId);
-    db.matches.filter(match => match.tournamentId === tournamentId).delete();
+    await db.matches.filter((match) => match.tournamentId === tournamentId).delete();
   }
 }

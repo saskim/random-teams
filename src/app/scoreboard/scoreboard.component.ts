@@ -1,33 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
+import { type Player } from '../db';
 import { PlayerService } from '../services/player.service';
 import { ScoreboardService } from '../services/scoreboard.service';
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { Player } from '../db';
-
-export interface PlayerScoreboard { playerId: number, playerName: string, points: number }
+export interface PlayerScoreboard {
+  playerId: number;
+  playerName: string;
+  points: number;
+}
 
 @Component({
   selector: 'app-scoreboard',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './scoreboard.component.html',
-  styleUrl: './scoreboard.component.scss'
+  styleUrl: './scoreboard.component.scss',
 })
 export class ScoreboardComponent implements OnInit {
-  playerScoreboard: PlayerScoreboard[] = [];
+  private readonly scoreboardService = inject(ScoreboardService);
+  private readonly playerService = inject(PlayerService);
   private players: Player[] = [];
 
-  constructor(private scoreboardService: ScoreboardService, private playerService: PlayerService) {}
+  playerScoreboard: PlayerScoreboard[] = [];
 
-  async ngOnInit() {
-    this.fetchPlayers();
-    this.fetchScoreboards();
+  ngOnInit() {
+    void this.fetchPlayers();
+    void this.fetchScoreboards();
   }
 
   async clearScoreboard() {
     await this.scoreboardService.clearScoreboard();
-    this.fetchScoreboards();
+    await this.fetchScoreboards();
   }
 
   private async fetchScoreboards() {
@@ -39,11 +44,16 @@ export class ScoreboardComponent implements OnInit {
 
     scoreboards.forEach((scoreboard) => {
       const playerName = this.getPlayerName(scoreboard.playerId);
-      const currentPlayerScoreboard = this.playerScoreboard.find(ps => ps.playerId === scoreboard.playerId);
+      const currentPlayerScoreboard = this.playerScoreboard.find(
+        (ps) => ps.playerId === scoreboard.playerId
+      );
       if (currentPlayerScoreboard === undefined) {
-        this.playerScoreboard.push({ playerId: scoreboard.playerId, playerName: playerName, points: scoreboard.points });
-      }
-      else {
+        this.playerScoreboard.push({
+          playerId: scoreboard.playerId,
+          playerName: playerName,
+          points: scoreboard.points,
+        });
+      } else {
         currentPlayerScoreboard.points += scoreboard.points;
       }
     });
@@ -53,7 +63,7 @@ export class ScoreboardComponent implements OnInit {
 
   private getPlayerName(playerId: number) {
     const player = this.players.find((player) => player.id === playerId);
-    return player?.name || 'Unknown';
+    return player?.name ?? 'Unknown';
   }
 
   private async fetchPlayers() {

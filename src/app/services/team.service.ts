@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Team, TeamWithRating, db } from '../db';
+
+import { db,type Team, type TeamWithRating } from '../db';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeamService {
-  constructor() { }
-
   async getTeams(): Promise<TeamWithRating[]> {
     const teams = await db.teams.toArray();
 
     const teamsWithRating: TeamWithRating[] = teams.map((team) => {
-      const totalRating = team.players.map(player => player.rating).reduce((acc, cur) => acc + cur, 0);
-      return { ...team, totalRating: totalRating, averageRating: Math.round(totalRating / team.players.length * 100) / 100 };
+      const totalRating = team.players
+        .map((player) => player.rating)
+        .reduce((acc, cur) => acc + cur, 0);
+      return {
+        ...team,
+        totalRating: totalRating,
+        averageRating: Math.round((totalRating / team.players.length) * 100) / 100,
+      };
     });
     return teamsWithRating;
   }

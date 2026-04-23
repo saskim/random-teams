@@ -1,7 +1,7 @@
 <div class="add-player">
   <mat-form-field appearance="outline">
     <mat-label>Add player name</mat-label>
-    <input matInput [(ngModel)]="newPlayerName" name="newPlayerName">
+    <input matInput [(ngModel)]="newPlayerName" name="newPlayerName" />
   </mat-form-field>
   <app-star-rating (ratingChange)="newPlayerRanking = $event"></app-star-rating>
 
@@ -14,9 +14,9 @@
   <p>{{ noOfActivePlayers() }} active players of {{ noOfPlayers() }}</p>
 
   <div class="player header">
-    <span class="player-name clickable" (click)="sortBy('name')">Name</span>
-    <span class="player-rating clickable" (click)="sortBy('rating')">Rating</span>
-    <span class="active-toggle clickable" (click)="sortBy('isActive')">Active</span>
+    <button class="player-name clickable" (click)="sortBy('name')">Name</button>
+    <button class="player-rating clickable" (click)="sortBy('rating')">Rating</button>
+    <button class="active-toggle clickable" (click)="sortBy('isActive')">Active</button>
     <span class="delete-button clickable"></span>
   </div>
   @for (player of players; track player) {
@@ -25,14 +25,16 @@
       <app-star-rating
         class="player-rating"
         [rating]="player.rating"
-        (ratingChange)="updatePlayerRating(player, $event)">
+        (ratingChange)="updatePlayerRating(player, $event)"
+      >
       </app-star-rating>
       <mat-slide-toggle
         class="active-toggle"
         color="primary"
         name="playerIsActive"
         [checked]="player.isActive"
-        (click)="updatePlayerIsActive(player)">
+        (click)="updatePlayerIsActive(player)"
+      >
       </mat-slide-toggle>
       <button class="delete-button" mat-icon-button (click)="deletePlayer(player.id)">
         <mat-icon color="warn">delete</mat-icon>

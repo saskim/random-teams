@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Match, db } from '../db';
+
+import { db,type Match } from '../db';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MatchService {
-
-  constructor() { }
-
   async getMatches(): Promise<Match[]> {
     return await db.matches.toArray();
   }

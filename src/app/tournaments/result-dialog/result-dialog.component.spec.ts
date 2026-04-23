@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
 
 import { ResultDialogComponent } from './result-dialog.component';
 
