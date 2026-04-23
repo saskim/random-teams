@@ -1,4 +1,4 @@
-import { Component, inject,type OnInit, signal } from '@angular/core';
+import { Component, inject, type OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -13,7 +13,10 @@ import { MatchService } from '../services/match.service';
 import { ScoreboardService } from '../services/scoreboard.service';
 import { TeamService } from '../services/team.service';
 import { TournamentService } from '../services/tournament.service';
-import { ResultDialogComponent, type ResultDialogData } from './result-dialog/result-dialog.component';
+import {
+  ResultDialogComponent,
+  type ResultDialogData,
+} from './result-dialog/result-dialog.component';
 
 export interface PrintableMatch {
   id?: number;
@@ -57,13 +60,13 @@ export class TournamentsComponent implements OnInit {
   noOfMatches = signal(0);
   noOfRemainingMatches = signal(0);
 
-  async ngOnInit() {
-    this.fetchTeams();
-    this.fetchTournaments();
-    this.fetchMatches();
+  ngOnInit() {
+    void this.fetchTeams();
+    void this.fetchTournaments();
+    void this.fetchMatches();
   }
 
-  async openResultDialog(printableMatch: PrintableMatch) {
+  openResultDialog(printableMatch: PrintableMatch) {
     const match = this.matches.find((match) => match.id === printableMatch.id);
     if (match === undefined) {
       return;
@@ -82,11 +85,11 @@ export class TournamentsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: ResultDialogData | false | undefined) => {
       console.log('The dialog was closed', result);
 
       if (result !== false) {
-        this.updateResult(result);
+        void this.updateResult(result);
       }
     });
   }
@@ -112,9 +115,46 @@ export class TournamentsComponent implements OnInit {
       team2Goals: result.team2Goals,
     });
 
-    this.registerToScoreboard(result, winnerTeamId);
+    await this.registerToScoreboard(result, winnerTeamId);
 
-    this.fetchTournaments();
+    await this.fetchTournaments();
+  }
+
+  async createTournament() {
+    let tournamentId;
+    if (this.tournaments.length === 0) {
+      const newTournament: Tournament = {
+        id: 1,
+        title: `Tournament`,
+        done: false,
+      };
+      tournamentId = await this.tournamentService.addTournament(newTournament);
+    } else {
+      tournamentId = this.tournaments[0].id!;
+    }
+
+    const matches = this.generateMatches(tournamentId);
+    for (const match of matches) {
+      await this.matchService.addMatch(match);
+    }
+
+    await this.fetchTournaments();
+  }
+
+  async deleteTournament(tournamentId?: number) {
+    if (tournamentId === undefined) {
+      return;
+    }
+    await this.tournamentService.deleteTournament(tournamentId);
+
+    await this.fetchTournaments();
+  }
+
+  async deleteAllTournaments() {
+    for (const tournament of this.tournaments) {
+      await this.tournamentService.deleteTournament(tournament.id!);
+    }
+    await this.fetchTournaments();
   }
 
   private async registerToScoreboard(result: ResultDialogData, winnerTeamId: number) {
@@ -140,7 +180,7 @@ export class TournamentsComponent implements OnInit {
   private addToScoreboard(result: ResultDialogData, team: Team, winnerTeamId: number) {
     const points = team.id === winnerTeamId ? 3 : winnerTeamId === 0 ? 1 : 0;
     team.players.forEach((player) => {
-      this.scoreboardService.addScoreboardEntry({
+      void this.scoreboardService.addScoreboardEntry({
         tournamentId: result.tournamentId,
         matchId: result.matchId,
         playerId: player.id!,
@@ -152,47 +192,10 @@ export class TournamentsComponent implements OnInit {
   private updateScoreboard(matchScoreboards: Scoreboard[], team: Team, winnerTeamId: number) {
     const points = team.id === winnerTeamId ? 3 : winnerTeamId === 0 ? 1 : 0;
     matchScoreboards.forEach((matchScoreboard) => {
-      this.scoreboardService.updateScoreboardEntry(matchScoreboard.id!, {
+      void this.scoreboardService.updateScoreboardEntry(matchScoreboard.id!, {
         points: points,
       });
     });
-  }
-
-  async createTournament() {
-    let tournamentId;
-    if (this.tournaments.length === 0) {
-      const newTournament: Tournament = {
-        id: 1,
-        title: `Tournament`,
-        done: false,
-      };
-      tournamentId = await this.tournamentService.addTournament(newTournament);
-    } else {
-      tournamentId = this.tournaments[0].id!;
-    }
-
-    const matches = this.generateMatches(tournamentId);
-    for (const match of matches) {
-      await this.matchService.addMatch(match);
-    }
-
-    this.fetchTournaments();
-  }
-
-  async deleteTournament(tournamentId?: number) {
-    if (tournamentId === undefined) {
-      return;
-    }
-    await this.tournamentService.deleteTournament(tournamentId);
-
-    this.fetchTournaments();
-  }
-  async deleteAllTournaments() {
-    this.tournaments.forEach(async (tournament) => {
-      await this.tournamentService.deleteTournament(tournament.id!);
-    });
-
-    this.fetchTournaments();
   }
 
   private generateMatches(tournamentId: number): Match[] {
@@ -218,7 +221,7 @@ export class TournamentsComponent implements OnInit {
 
   private async fetchTournaments() {
     this.tournaments = await this.tournamentService.getTournaments();
-    this.fetchMatches();
+    await this.fetchMatches();
   }
 
   private async fetchTeams() {

@@ -1,4 +1,4 @@
-import { Component, inject,type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,18 +21,18 @@ export interface PlayerScoreboard {
 export class ScoreboardComponent implements OnInit {
   private readonly scoreboardService = inject(ScoreboardService);
   private readonly playerService = inject(PlayerService);
-
-  playerScoreboard: PlayerScoreboard[] = [];
   private players: Player[] = [];
 
-  async ngOnInit() {
-    this.fetchPlayers();
-    this.fetchScoreboards();
+  playerScoreboard: PlayerScoreboard[] = [];
+
+  ngOnInit() {
+    void this.fetchPlayers();
+    void this.fetchScoreboards();
   }
 
   async clearScoreboard() {
     await this.scoreboardService.clearScoreboard();
-    this.fetchScoreboards();
+    await this.fetchScoreboards();
   }
 
   private async fetchScoreboards() {
@@ -63,7 +63,7 @@ export class ScoreboardComponent implements OnInit {
 
   private getPlayerName(playerId: number) {
     const player = this.players.find((player) => player.id === playerId);
-    return player?.name || 'Unknown';
+    return player?.name ?? 'Unknown';
   }
 
   private async fetchPlayers() {

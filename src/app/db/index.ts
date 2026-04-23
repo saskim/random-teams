@@ -62,7 +62,7 @@ export class RandomTeamsDB extends Dexie {
     this.on('populate', () => this.populate());
 
     if (navigator.storage?.persist) {
-      navigator.storage.persist();
+      void navigator.storage.persist();
     }
   }
 
@@ -74,13 +74,13 @@ export class RandomTeamsDB extends Dexie {
     await db.transaction(
       'rw',
       [db.players, db.teams, db.tournaments, db.matches, db.scoreboard],
-      () => {
-        this.players.clear();
-        this.teams.clear();
-        this.tournaments.clear();
-        this.matches.clear();
-        this.scoreboard.clear();
-        this.populate();
+      async () => {
+        await this.players.clear();
+        await this.teams.clear();
+        await this.tournaments.clear();
+        await this.matches.clear();
+        await this.scoreboard.clear();
+        await this.populate();
       }
     );
   }

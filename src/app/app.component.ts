@@ -24,9 +24,9 @@ import { APP_VERSION } from './app-version';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly titleService = inject(Title);
+  protected readonly router = inject(Router);
 
   title = '';
   version = APP_VERSION ?? '1.0.0';
@@ -41,11 +41,15 @@ export class AppComponent {
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
-        mergeMap((route) => route.data)
+        mergeMap((route) => route.data),
+        map((data) => {
+          const title: unknown = data['title'];
+          return typeof title === 'string' ? title : '';
+        })
       )
-      .subscribe((data) => {
-        this.title = data['title'];
-        this.titleService.setTitle(this.title);
+      .subscribe((title) => {
+        this.title = title;
+        this.titleService.setTitle(title);
       });
   }
 }

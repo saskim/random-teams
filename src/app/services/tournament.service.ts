@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { db,type Tournament } from '../db';
+import { db, type Tournament } from '../db';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,6 @@ export class TournamentService {
 
   async deleteTournament(tournamentId: number) {
     await db.tournaments.delete(tournamentId);
-    db.matches.filter((match) => match.tournamentId === tournamentId).delete();
+    await db.matches.filter((match) => match.tournamentId === tournamentId).delete();
   }
 }

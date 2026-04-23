@@ -1,4 +1,4 @@
-import { Component, inject,type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,18 +38,18 @@ export class TeamsComponent implements OnInit {
     return Math.floor(this.noOfActivePlayers / this.noOfPlayersOnEachTeam);
   }
 
-  async ngOnInit() {
-    this.fetchTeams();
-    this.fetchActivePlayers();
+  ngOnInit() {
+    void this.fetchTeams();
+    void this.fetchActivePlayers();
   }
 
   async randomTeams() {
     const initializedTeams = this.initializeTeams();
-    const generatedTeams = await this.generateRandomTeams(initializedTeams);
-    generatedTeams.forEach((team) => {
-      this.teamService.addTeam(team);
-    });
-    this.fetchTeams();
+    const generatedTeams = this.generateRandomTeams(initializedTeams);
+    for (const team of generatedTeams) {
+      await this.teamService.addTeam(team);
+    }
+    await this.fetchTeams();
   }
 
   async deleteTeam(teamId?: number) {
@@ -57,15 +57,14 @@ export class TeamsComponent implements OnInit {
       return;
     }
     await this.teamService.deleteTeam(teamId);
-    this.fetchTeams();
+    await this.fetchTeams();
   }
 
   async deleteAllTeams() {
-    this.teams.forEach(async (team) => {
+    for (const team of this.teams) {
       await this.teamService.deleteTeam(team.id!);
-    });
-
-    this.fetchTeams();
+    }
+    await this.fetchTeams();
   }
 
   async updateTeamIsActive(team: TeamWithRating) {
@@ -75,11 +74,11 @@ export class TeamsComponent implements OnInit {
 
     team.isActive = !team.isActive;
 
-    this.teamService.updateTeam(team.id, { isActive: team.isActive });
-    this.fetchTeams();
+    await this.teamService.updateTeam(team.id, { isActive: team.isActive });
+    await this.fetchTeams();
   }
 
-  private async generateRandomTeams(teams: TeamWithRating[]): Promise<TeamWithRating[]> {
+  private generateRandomTeams(teams: TeamWithRating[]): TeamWithRating[] {
     // Sort players by rating and then shuffle groups of similarly ranked players
     const sortedPlayers = this.activePlayers
       .filter((player) => player.isActive)

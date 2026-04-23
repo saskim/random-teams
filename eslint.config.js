@@ -87,12 +87,12 @@ module.exports = defineConfig([
         'warn',
         {
           default: [
-            'public-static-field',
-            'protected-static-field',
             'private-static-field',
-            'public-instance-field',
-            'protected-instance-field',
+            'protected-static-field',
+            'public-static-field',
             'private-instance-field',
+            'protected-instance-field',
+            'public-instance-field',
             'public-constructor',
             'protected-constructor',
             'private-constructor',

@@ -1,4 +1,4 @@
-import { Component, inject,type OnInit, signal } from '@angular/core';
+import { Component, inject, type OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -42,47 +42,47 @@ export class PlayersComponent implements OnInit {
   message = signal('You can save players to a file so you can restore them later');
   error = signal('');
 
-  async ngOnInit() {
-    this.fetchPlayers();
+  ngOnInit() {
+    void this.fetchPlayers();
     this.sortBy('name');
   }
 
-  addPlayer() {
+  async addPlayer() {
     const newPlayer: Player = {
       name: this.newPlayerName,
       rating: this.newPlayerRanking,
       isActive: true,
     };
-    this.playerService.addPlayer(newPlayer);
+    await this.playerService.addPlayer(newPlayer);
     this.newPlayerName = '';
-    this.fetchPlayers();
+    await this.fetchPlayers();
   }
 
-  deletePlayer(playerId?: number) {
+  async deletePlayer(playerId?: number) {
     if (playerId === undefined) {
       return;
     }
-    this.playerService.deletePlayer(playerId);
-    this.fetchPlayers();
+    await this.playerService.deletePlayer(playerId);
+    await this.fetchPlayers();
   }
 
-  updatePlayerIsActive(player: Player) {
+  async updatePlayerIsActive(player: Player) {
     if (player?.id === undefined) {
       return;
     }
     player.isActive = !player.isActive;
 
-    this.playerService.updatePlayer(player.id, { isActive: player.isActive });
-    this.fetchPlayers();
+    await this.playerService.updatePlayer(player.id, { isActive: player.isActive });
+    await this.fetchPlayers();
   }
 
-  updatePlayerRating(player: Player, newRating: PlayerRating) {
+  async updatePlayerRating(player: Player, newRating: PlayerRating) {
     if (player?.id === undefined) {
       return;
     }
     player.rating = newRating;
-    this.playerService.updatePlayer(player.id, { rating: newRating });
-    this.fetchPlayers();
+    await this.playerService.updatePlayer(player.id, { rating: newRating });
+    await this.fetchPlayers();
   }
 
   sortBy(field: Field) {
@@ -119,7 +119,7 @@ export class PlayersComponent implements OnInit {
       const file = input.files[0];
       const success = await this.playerService.restorePlayers(file);
       if (success) {
-        this.fetchPlayers();
+        await this.fetchPlayers();
       } else {
         this.error.set('Could not restore players');
       }
