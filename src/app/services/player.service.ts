@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { Player, db } from '../db';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayerService {
-  constructor() {}
-
   async getPlayer(playerId: number): Promise<Player | undefined> {
-    return db.players.filter(player => player.id === playerId).first();
+    return db.players.filter((player) => player.id === playerId).first();
   }
 
   async getPlayers(): Promise<Player[]> {
@@ -16,7 +14,7 @@ export class PlayerService {
   }
 
   async getActivePlayers(): Promise<Player[]> {
-    return db.players.filter(player => player.isActive).toArray();
+    return db.players.filter((player) => player.isActive).toArray();
   }
 
   async addPlayer(player: Player) {
@@ -32,7 +30,7 @@ export class PlayerService {
   }
 
   async persistPlayers(): Promise<boolean | undefined> {
-    if (await db.players.count() > 0) {
+    if ((await db.players.count()) > 0) {
       const options = { skipTables: ['scoreboard', 'matches', 'tournaments', 'teams'] };
       return db.exportDatabase(options);
     }

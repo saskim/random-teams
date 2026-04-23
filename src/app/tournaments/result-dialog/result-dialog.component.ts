@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 export interface ResultDialogData {
-  tournamentId: number
+  tournamentId: number;
   matchId: number;
   team1Id: number;
   team2Id: number;
@@ -39,14 +39,16 @@ export interface ResultDialogData {
     MatInputModule,
   ],
   templateUrl: './result-dialog.component.html',
-  styleUrl: './result-dialog.component.scss'
+  styleUrl: './result-dialog.component.scss',
 })
 export class ResultDialogComponent {
+  private readonly dialogRef = inject<MatDialogRef<ResultDialogComponent>>(MatDialogRef);
 
-  constructor(
-    public dialogRef: MatDialogRef<ResultDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ResultDialogData,
-  ) {
+  protected readonly data = inject<ResultDialogData>(MAT_DIALOG_DATA);
+
+  constructor() {
+    const data = this.data;
+
     data.done = true;
   }
 

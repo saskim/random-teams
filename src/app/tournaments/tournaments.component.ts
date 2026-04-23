@@ -1,5 +1,4 @@
-
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +15,7 @@ import { ResultDialogComponent, ResultDialogData } from './result-dialog/result-
 import { ScoreboardService } from '../services/scoreboard.service';
 
 export interface PrintableMatch {
-  id?: number
+  id?: number;
   team1?: Team;
   team2?: Team;
   team1Goals: number;
@@ -35,12 +34,18 @@ export interface PrintableMatch {
     MatInputModule,
     MatListModule,
     MatSlideToggleModule,
-    FormsModule
-],
+    FormsModule,
+  ],
   templateUrl: './tournaments.component.html',
-  styleUrl: './tournaments.component.scss'
+  styleUrl: './tournaments.component.scss',
 })
 export class TournamentsComponent implements OnInit {
+  private readonly dialog = inject(MatDialog);
+  private readonly tournamentService = inject(TournamentService);
+  private readonly teamService = inject(TeamService);
+  private readonly matchService = inject(MatchService);
+  private readonly scoreboardService = inject(ScoreboardService);
+
   teams: Team[] = [];
   tournaments: Tournament[] = [];
   matches: Match[] = [];
@@ -51,14 +56,6 @@ export class TournamentsComponent implements OnInit {
   noOfMatches = signal(0);
   noOfRemainingMatches = signal(0);
 
-  constructor(
-    public dialog: MatDialog,
-    private tournamentService: TournamentService,
-    private teamService: TeamService,
-    private matchService: MatchService,
-    private scoreboardService: ScoreboardService,
-  ) {}
-
   async ngOnInit() {
     this.fetchTeams();
     this.fetchTournaments();
@@ -66,7 +63,7 @@ export class TournamentsComponent implements OnInit {
   }
 
   async openResultDialog(printableMatch: PrintableMatch) {
-    const match = this.matches.find(match => match.id === printableMatch.id);
+    const match = this.matches.find((match) => match.id === printableMatch.id);
     if (match === undefined) {
       return;
     }
@@ -84,7 +81,7 @@ export class TournamentsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
 
       if (result !== false) {
@@ -102,19 +99,17 @@ export class TournamentsComponent implements OnInit {
     if (result.done) {
       if (result.team1Goals === result.team2Goals) {
         winnerTeamId = 0;
-      }
-      else {
+      } else {
         winnerTeamId = result.team1Goals > result.team2Goals ? result.team1Id : result.team2Id;
       }
     }
 
     await this.matchService.updateMatch(result.matchId, {
-      'winnerTeamId': winnerTeamId,
-      'done': result.done,
-      'team1Goals': result.team1Goals,
-      'team2Goals': result.team2Goals,
+      winnerTeamId: winnerTeamId,
+      done: result.done,
+      team1Goals: result.team1Goals,
+      team2Goals: result.team2Goals,
     });
-
 
     this.registerToScoreboard(result, winnerTeamId);
 
@@ -122,18 +117,20 @@ export class TournamentsComponent implements OnInit {
   }
 
   private async registerToScoreboard(result: ResultDialogData, winnerTeamId: number) {
-    const team1 = this.teams.find(team => team.id === result.team1Id);
-    const team2 = this.teams.find(team => team.id === result.team2Id);
+    const team1 = this.teams.find((team) => team.id === result.team1Id);
+    const team2 = this.teams.find((team) => team.id === result.team2Id);
     if (team1 === undefined || team2 === undefined) {
       return;
     }
 
-    const matchScoreboards = await this.scoreboardService.getMatchScoreboard(result.tournamentId, result.matchId);
+    const matchScoreboards = await this.scoreboardService.getMatchScoreboard(
+      result.tournamentId,
+      result.matchId
+    );
     if (matchScoreboards === undefined || matchScoreboards.length === 0) {
       this.addToScoreboard(result, team1, winnerTeamId);
       this.addToScoreboard(result, team2, winnerTeamId);
-    }
-    else {
+    } else {
       this.updateScoreboard(matchScoreboards, team1, winnerTeamId);
       this.updateScoreboard(matchScoreboards, team2, winnerTeamId);
     }
@@ -141,27 +138,26 @@ export class TournamentsComponent implements OnInit {
 
   private addToScoreboard(result: ResultDialogData, team: Team, winnerTeamId: number) {
     const points = team.id === winnerTeamId ? 3 : winnerTeamId === 0 ? 1 : 0;
-    team.players.forEach(player => {
+    team.players.forEach((player) => {
       this.scoreboardService.addScoreboardEntry({
-        'tournamentId': result.tournamentId,
-        'matchId': result.matchId,
-        'playerId': player.id!,
-        'points': points,
+        tournamentId: result.tournamentId,
+        matchId: result.matchId,
+        playerId: player.id!,
+        points: points,
       });
     });
   }
 
   private updateScoreboard(matchScoreboards: Scoreboard[], team: Team, winnerTeamId: number) {
     const points = team.id === winnerTeamId ? 3 : winnerTeamId === 0 ? 1 : 0;
-    matchScoreboards.forEach(matchScoreboard => {
+    matchScoreboards.forEach((matchScoreboard) => {
       this.scoreboardService.updateScoreboardEntry(matchScoreboard.id!, {
-        'points': points,
+        points: points,
       });
     });
   }
 
   async createTournament() {
-    let tournament;
     let tournamentId;
     if (this.tournaments.length === 0) {
       const newTournament: Tournament = {
@@ -170,11 +166,8 @@ export class TournamentsComponent implements OnInit {
         done: false,
       };
       tournamentId = await this.tournamentService.addTournament(newTournament);
-      tournament = newTournament;
-    }
-    else {
-      tournament = this.tournaments[0];
-      tournamentId = tournament.id!;
+    } else {
+      tournamentId = this.tournaments[0].id!;
     }
 
     const matches = this.generateMatches(tournamentId);
@@ -196,7 +189,7 @@ export class TournamentsComponent implements OnInit {
   async deleteAllTournaments() {
     this.tournaments.forEach(async (tournament) => {
       await this.tournamentService.deleteTournament(tournament.id!);
-    })
+    });
 
     this.fetchTournaments();
   }
@@ -205,7 +198,7 @@ export class TournamentsComponent implements OnInit {
     const matches: Match[] = [];
 
     this.teams.forEach((team1, index1) => {
-      this.teams.slice(index1 + 1).forEach((team2, index2) => {
+      this.teams.slice(index1 + 1).forEach((team2) => {
         const match: Match = {
           teamId1: team1.id!,
           teamId2: team2.id!,
@@ -235,19 +228,21 @@ export class TournamentsComponent implements OnInit {
   private async fetchMatches() {
     this.matches = await this.matchService.getMatches();
 
-    this.printableMatches.set(this.matches.map((match) => {
-      const team1 = this.teams.find((team) => team.id === match.teamId1);
-      const team2 = this.teams.find((team) => team.id === match.teamId2);
-      return {
-        id: match.id,
-        team1: team1,
-        team2: team2,
-        team1Goals: match.team1Goals,
-        team2Goals: match.team2Goals,
-        winnerTeamId: match.winnerTeamId,
-        collapsePlayers: true
-      };
-    }));
+    this.printableMatches.set(
+      this.matches.map((match) => {
+        const team1 = this.teams.find((team) => team.id === match.teamId1);
+        const team2 = this.teams.find((team) => team.id === match.teamId2);
+        return {
+          id: match.id,
+          team1: team1,
+          team2: team2,
+          team1Goals: match.team1Goals,
+          team2Goals: match.team2Goals,
+          winnerTeamId: match.winnerTeamId,
+          collapsePlayers: true,
+        };
+      })
+    );
 
     this.noOfMatches.set(this.matches.length);
     this.noOfRemainingMatches.set(this.matches.filter((match) => !match.done).length);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { ScoreboardService } from '../services/scoreboard.service';
 
@@ -6,19 +6,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Player } from '../db';
 
-export interface PlayerScoreboard { playerId: number, playerName: string, points: number }
+export interface PlayerScoreboard {
+  playerId: number;
+  playerName: string;
+  points: number;
+}
 
 @Component({
   selector: 'app-scoreboard',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './scoreboard.component.html',
-  styleUrl: './scoreboard.component.scss'
+  styleUrl: './scoreboard.component.scss',
 })
 export class ScoreboardComponent implements OnInit {
+  private readonly scoreboardService = inject(ScoreboardService);
+  private readonly playerService = inject(PlayerService);
+
   playerScoreboard: PlayerScoreboard[] = [];
   private players: Player[] = [];
-
-  constructor(private scoreboardService: ScoreboardService, private playerService: PlayerService) {}
 
   async ngOnInit() {
     this.fetchPlayers();
@@ -39,11 +44,16 @@ export class ScoreboardComponent implements OnInit {
 
     scoreboards.forEach((scoreboard) => {
       const playerName = this.getPlayerName(scoreboard.playerId);
-      const currentPlayerScoreboard = this.playerScoreboard.find(ps => ps.playerId === scoreboard.playerId);
+      const currentPlayerScoreboard = this.playerScoreboard.find(
+        (ps) => ps.playerId === scoreboard.playerId
+      );
       if (currentPlayerScoreboard === undefined) {
-        this.playerScoreboard.push({ playerId: scoreboard.playerId, playerName: playerName, points: scoreboard.points });
-      }
-      else {
+        this.playerScoreboard.push({
+          playerId: scoreboard.playerId,
+          playerName: playerName,
+          points: scoreboard.points,
+        });
+      } else {
         currentPlayerScoreboard.points += scoreboard.points;
       }
     });

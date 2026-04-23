@@ -1,4 +1,4 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { Player, PlayerRating } from '../db';
 import { PlayerService } from '../services/player.service';
 
@@ -10,7 +10,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { StarRatingComponent } from "./star-rating/star-rating.component";
+import { StarRatingComponent } from './star-rating/star-rating.component';
 
 export type Field = 'name' | 'rating' | 'isActive';
 
@@ -26,10 +26,12 @@ export type Field = 'name' | 'rating' | 'isActive';
     MatListModule,
     MatSlideToggleModule,
     FormsModule,
-    StarRatingComponent
-]
+    StarRatingComponent,
+  ],
 })
 export class PlayersComponent implements OnInit {
+  private readonly playerService = inject(PlayerService);
+
   newPlayerName = '';
   newPlayerRanking: PlayerRating = 3;
   players: Player[] = [];
@@ -40,9 +42,6 @@ export class PlayersComponent implements OnInit {
   noOfPlayers = signal(0);
   message = signal('You can save players to a file so you can restore them later');
   error = signal('');
-
-  constructor(private playerService: PlayerService) {}
-
 
   async ngOnInit() {
     this.fetchPlayers();
@@ -74,7 +73,7 @@ export class PlayersComponent implements OnInit {
     }
     player.isActive = !player.isActive;
 
-    this.playerService.updatePlayer(player.id, { 'isActive': player.isActive });
+    this.playerService.updatePlayer(player.id, { isActive: player.isActive });
     this.fetchPlayers();
   }
 
@@ -83,7 +82,7 @@ export class PlayersComponent implements OnInit {
       return;
     }
     player.rating = newRating;
-    this.playerService.updatePlayer(player.id, { 'rating': newRating });
+    this.playerService.updatePlayer(player.id, { rating: newRating });
     this.fetchPlayers();
   }
 
@@ -97,7 +96,7 @@ export class PlayersComponent implements OnInit {
         this.players.sort((a, b) => b.rating - a.rating);
         break;
       case 'isActive':
-        this.players.sort((a, b) => (b.isActive === a.isActive) ? 0 : b.isActive ? -1 : 1);
+        this.players.sort((a, b) => (b.isActive === a.isActive ? 0 : b.isActive ? -1 : 1));
         break;
     }
   }
@@ -108,9 +107,8 @@ export class PlayersComponent implements OnInit {
     const success = await this.playerService.persistPlayers();
     if (success) {
       this.message.set(`Players successfully saved to file 'random-teams.dexie'`);
-    }
-    else {
-      this.error.set("Could not save players to file");
+    } else {
+      this.error.set('Could not save players to file');
     }
   }
 
@@ -123,9 +121,8 @@ export class PlayersComponent implements OnInit {
       const success = await this.playerService.restorePlayers(file);
       if (success) {
         this.fetchPlayers();
-      }
-      else {
-        this.error.set("Could not restore players");
+      } else {
+        this.error.set('Could not restore players');
       }
     }
   }

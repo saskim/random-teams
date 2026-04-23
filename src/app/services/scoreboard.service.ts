@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { Scoreboard, db } from '../db';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScoreboardService {
-
-  constructor() {}
-
   async getMatchScoreboard(tournamentId: number, matchId: number): Promise<Scoreboard[]> {
     return await db.scoreboard
-      .filter(scoreboard => scoreboard.tournamentId === tournamentId && scoreboard.matchId === matchId).toArray();
+      .filter(
+        (scoreboard) => scoreboard.tournamentId === tournamentId && scoreboard.matchId === matchId
+      )
+      .toArray();
   }
   async getTournamentScoreboard(tournamentId: number): Promise<Scoreboard[]> {
-    return db.scoreboard.filter(scoreboard => scoreboard.tournamentId === tournamentId).toArray();
+    return db.scoreboard.filter((scoreboard) => scoreboard.tournamentId === tournamentId).toArray();
   }
 
   async addScoreboardEntry(scoreboard: Scoreboard) {
