@@ -2,7 +2,11 @@
 <div class="add-team">
   <mat-form-field appearance="outline">
     <mat-label>Number of players on each team</mat-label>
-    <input matInput type="number" [(ngModel)]="noOfPlayersOnEachTeam" name="noOfPlayersOnEachTeam">
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="noOfPlayersOnEachTeam"
+      name="noOfPlayersOnEachTeam" />
   </mat-form-field>
 
   <button mat-mini-fab color="primary" aria-label="Create randomized teams" (click)="randomTeams()">
@@ -19,7 +23,8 @@
   @for (team of teams; track team) {
     <div class="team">
       <div class="team-info">
-        <div class="team-name">{{ team.name }}
+        <div class="team-name">
+          {{ team.name }}
           <span class="team-rating"><mat-icon>star</mat-icon> {{ team.averageRating }}</span>
         </div>
         <mat-slide-toggle
@@ -27,8 +32,7 @@
           color="primary"
           name="teamIsActive"
           [checked]="team.isActive"
-          (click)="updateTeamIsActive(team)">
-        </mat-slide-toggle>
+          (click)="updateTeamIsActive(team)" />
         <button class="delete-button" mat-icon-button (click)="deleteTeam(team.id)">
           <mat-icon color="warn">delete</mat-icon>
         </button>
