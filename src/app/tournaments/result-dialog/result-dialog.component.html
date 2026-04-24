@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>Register result</h2>
 <mat-dialog-content>
   <mat-form-field>
-    <mat-label>Goals "{{data.team1Name}}"</mat-label>
-    <input matInput type="number" [(ngModel)]="data.team1Goals">
+    <mat-label>Goals "{{ data.team1Name }}"</mat-label>
+    <input matInput type="number" [(ngModel)]="data.team1Goals" />
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Goals "{{data.team2Name}}"</mat-label>
-    <input matNativeControl matInput type="number" [(ngModel)]="data.team2Goals">
+    <mat-label>Goals "{{ data.team2Name }}"</mat-label>
+    <input matNativeControl matInput type="number" [(ngModel)]="data.team2Goals" />
   </mat-form-field>
   <mat-checkbox class="match-done" [(ngModel)]="data.done">Match has been played</mat-checkbox>
 </mat-dialog-content>

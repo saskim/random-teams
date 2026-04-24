@@ -3,7 +3,7 @@
     <mat-label>Add player name</mat-label>
     <input matInput [(ngModel)]="newPlayerName" name="newPlayerName" />
   </mat-form-field>
-  <app-star-rating [(rating)]="newPlayerRanking"></app-star-rating>
+  <app-star-rating [(rating)]="newPlayerRanking" />
 
   <button mat-mini-fab color="primary" aria-label="Add player" (click)="addPlayer()">
     <mat-icon>person_add</mat-icon>
@@ -25,17 +25,13 @@
       <app-star-rating
         class="player-rating"
         [rating]="player.rating"
-        (ratingChange)="updatePlayerRating(player, $event)"
-      >
-      </app-star-rating>
+        (ratingChange)="updatePlayerRating(player, $event)" />
       <mat-slide-toggle
         class="active-toggle"
         color="primary"
         name="playerIsActive"
         [checked]="player.isActive"
-        (click)="updatePlayerIsActive(player)"
-      >
-      </mat-slide-toggle>
+        (click)="updatePlayerIsActive(player)" />
       <button class="delete-button" mat-icon-button (click)="deletePlayer(player.id)">
         <mat-icon color="warn">delete</mat-icon>
       </button>
