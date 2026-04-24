@@ -3,7 +3,7 @@
     <mat-label>Add player name</mat-label>
     <input matInput [(ngModel)]="newPlayerName" name="newPlayerName" />
   </mat-form-field>
-  <app-star-rating (ratingChange)="newPlayerRanking = $event"></app-star-rating>
+  <app-star-rating [(rating)]="newPlayerRanking"></app-star-rating>
 
   <button mat-mini-fab color="primary" aria-label="Add player" (click)="addPlayer()">
     <mat-icon>person_add</mat-icon>

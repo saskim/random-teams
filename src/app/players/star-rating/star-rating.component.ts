@@ -1,25 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, model } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 
 import { type PlayerRating } from '../../db';
 
 @Component({
   selector: 'app-star-rating',
-  imports: [MatInputModule, MatFormFieldModule, MatIconModule],
+  imports: [MatIconModule],
   templateUrl: './star-rating.component.html',
-  styleUrl: './star-rating.component.scss'
+  styleUrl: './star-rating.component.scss',
 })
 export class StarRatingComponent {
-  @Input() rating: PlayerRating = 3;
-  @Output() ratingChange = new EventEmitter<PlayerRating>();
+  readonly rating = model<PlayerRating>(3);
 
   stars: PlayerRating[] = [1, 2, 3, 4, 5];
 
-
   setRating(rating: PlayerRating) {
-    this.rating = rating;
-    this.ratingChange.emit(this.rating);
+    this.rating.set(rating);
   }
 }
