@@ -115,6 +115,16 @@ module.exports = defineConfig([
     },
   },
   {
+    files: ['**/*.spec.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: ['./tsconfig.spec.json'],
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
+  {
     files: ['**/*.html'],
     extends: [angular.configs.templateRecommended, angular.configs.templateAccessibility],
     rules: {
