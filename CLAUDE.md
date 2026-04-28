@@ -6,7 +6,7 @@
 - **UI**: Angular Material + Angular CDK
 - **Database**: Dexie (IndexedDB wrapper) with dexie-export-import
 - **State**: RxJS services
-- **Testing**: Karma + Jasmine
+- **Testing**: Vitest (via Angular's native `@angular/build:unit-test` builder)
 - **Package manager**: pnpm — enforced via `"packageManager"` field in `package.json`; never use `npm` or `yarn`
 - **Language**: TypeScript
 
@@ -15,7 +15,7 @@
 ```bash
 pnpm start          # dev server at http://localhost:4200
 pnpm build          # production build → dist/
-pnpm test           # unit tests (Karma/Chrome)
+pnpm test           # unit tests (Vitest, single run)
 pnpm run watch      # dev build with watch
 ng generate component src/app/<feature>/<name>  # scaffold a component
 ```
@@ -98,8 +98,8 @@ If the scope isn't clear yet, omit the name and let Claude generate a random one
 ### Commands
 
 ```bash
-pnpm test                                              # interactive (Karma/Chrome, watch mode)
-ng test --watch=false --browsers=ChromeHeadless        # headless single run (CI / hooks)
+pnpm test           # single run (CI / hooks)
+pnpm test:watch     # watch mode
 ```
 
 ### Conventions
@@ -185,7 +185,7 @@ Runs on every push and PR targeting `main`:
 1. Install dependencies (`pnpm install --frozen-lockfile`)
 2. Lint (`pnpm lint`)
 3. Build (`pnpm build`)
-4. Unit tests headless (`ng test --watch=false --browsers=ChromeHeadless`)
+4. Unit tests (`pnpm test`)
 
 All steps must pass before a PR can be merged.
 
