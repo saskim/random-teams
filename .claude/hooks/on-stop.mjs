@@ -25,7 +25,7 @@ if (!existsSync(ng)) {
 }
 
 run('Build', ng, ['build']);
-run('Tests', ng, ['test', '--watch=false', '--browsers=ChromeHeadless']);
+run('Tests', ng, ['test', '--watch=false']);
 
 console.log('\n▶ Security audit');
 const audit = spawnSync(pnpm, ['audit', '--audit-level=high'], {

@@ -21,7 +21,7 @@ echo ""
 echo "  Pushing to main — running tests and build..."
 echo ""
 
-ng test --watch=false --browsers=ChromeHeadless || {
+ng test --watch=false || {
   echo ""
   echo "  ✗ Tests failed. Push to main blocked."
   echo ""
