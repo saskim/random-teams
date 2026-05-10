@@ -77,6 +77,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "browsers": ["chromium"],
             "setupFiles": ["src/test-setup.ts"]
           }
         },
