@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { db,type Player } from '../db';
+import { db, type Player } from '../db';
 
 @Injectable({
   providedIn: 'root',
