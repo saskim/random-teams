@@ -1,18 +1,50 @@
-<button mat-stroked-button extended color="warn" (click)="clearScoreboard()">
-  <mat-icon>delete</mat-icon>
-  Clear scoreboard
-</button>
-<div class="scoreboard-list">
-  <div class="scoreboard-header">
-    <div class="player-position">#</div>
-    <div class="player-name">Player name</div>
-    <div class="player-score">Score</div>
-  </div>
-  @for (scoreboard of playerScoreboard; track scoreboard) {
-    <div class="scoreboard-row">
-      <div class="player-position">{{ $index + 1 }}.</div>
-      <div class="player-name">{{ scoreboard.playerName }}</div>
-      <div class="player-score">{{ scoreboard.points }}</div>
+<!-- ── Scoreboard ─────────────────────────────────────────────────────────── -->
+@if (playerScoreboard.length === 0) {
+  <div class="card">
+    <div class="empty-state">
+      <span class="material-icons">emoji_events</span>
+      <p>
+        No scores yet.<br />
+        <a routerLink="/matches">Play some matches first →</a>
+      </p>
     </div>
-  }
-</div>
+  </div>
+} @else {
+  <div class="card mb-4">
+    <div class="board-header">
+      <span class="section-label" style="margin: 0">Rankings</span>
+      <button class="btn-danger" (click)="clearScoreboard()">
+        <span class="material-icons" style="font-size: 1rem">delete</span>
+        Clear
+      </button>
+    </div>
+
+    <div class="board-list">
+      @for (entry of playerScoreboard; track entry.playerId; let i = $index) {
+        <div class="board-row" [class.board-row--top]="i < 3">
+          <span class="position">
+            @if (i === 0) {
+              <span class="medal gold">🥇</span>
+            } @else if (i === 1) {
+              <span class="medal silver">🥈</span>
+            } @else if (i === 2) {
+              <span class="medal bronze">🥉</span>
+            } @else {
+              <span class="position-num">{{ i + 1 }}</span>
+            }
+          </span>
+
+          <span class="player-name">{{ entry.playerName }}</span>
+
+          <div class="score-bar-wrap">
+            <div
+              class="score-bar"
+              [style.width.%]="(entry.points / playerScoreboard[0].points) * 100"></div>
+          </div>
+
+          <span class="points">{{ entry.points }} pts</span>
+        </div>
+      }
+    </div>
+  </div>
+}

@@ -1,73 +1,91 @@
-.add-player {
-  display: flex;
-  align-items: baseline;
-  justify-content: end;
-  gap: 1rem;
-  @media screen and (max-width: 600px) {
-    justify-content: space-around;
-  }
-}
-
-.player-list {
-  display: flex;
-  flex-direction: column;
-
-  .player {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    &:nth-of-type(even) {
-      background-color: #efecfc;
-    }
-    background-color: #f9f7ff;
-
-    &.header {
-      font-weight: 900;
-      .clickable {
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 0;
-        font: inherit;
-        text-align: left;
-      }
-    }
-
-    .player-name {
-      padding-left: 0.5rem;
-      flex-grow: 1;
-    }
-    .active-toggle {
-      width: 36px;
-    }
-    .player-rating {
-      width: 120px;
-    }
-    .delete-button {
-      width: 48px;
-    }
-  }
-}
-
-.backup-restore-players {
+.add-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 0.8rem;
-  justify-content: space-evenly;
+  gap: 0.75rem;
+
+  .text-input {
+    flex: 1;
+  }
 }
 
-.message {
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #f9f7ff;
-  color: #333;
-  font-weight: 700;
-  text-align: center;
-  .success {
-    color: rgb(0, 104, 3);
-    margin-top: 0.8rem;
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+
+  .player-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
   }
+}
+
+.sort-chips {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.sort-chip {
+  padding: 0.2rem 0.625rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+
+  &:hover {
+    background: var(--surface-2);
+  }
+
+  &--active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary-text);
+  }
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.2s;
+
+  &--odd {
+    background: var(--surface-2);
+  }
+
+  &--inactive {
+    opacity: 0.4;
+  }
+
+  .player-name {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text);
+    font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.backup-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.backup-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }

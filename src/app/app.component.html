@@ -1,36 +1,127 @@
-<mat-drawer-container class="sidenav-container" autosize>
-  <mat-drawer #drawer class="sidenav" role="navigation" mode="over">
-    <mat-nav-list>
-      <a mat-list-item href="/players" [activated]="router.url === '/players'">
-        <mat-icon>people</mat-icon>
-        Players
-      </a>
-      <a mat-list-item href="/teams" [activated]="router.url === '/teams'">
-        <mat-icon>groups</mat-icon>
-        Teams
-      </a>
-      <a mat-list-item href="/matches" [activated]="router.url === '/matches'">
-        <mat-icon>scoreboard</mat-icon>
-        Matches
-      </a>
-      <a mat-list-item href="/scoreboard" [activated]="router.url === '/scoreboard'">
-        <mat-icon>emoji_events</mat-icon>
-        Scoreboard
-      </a>
-    </mat-nav-list>
-
-    <div class="version-info">
-      <span>Version: {{ version }}</span>
+<div class="app-shell">
+  <!-- ── Desktop sidebar ───────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="material-icons brand-icon">sports_soccer</span>
+      <span class="brand-name">RandomTeams</span>
     </div>
-  </mat-drawer>
-  <mat-toolbar color="primary">
-    <button mat-icon-button class="menu" aria-label="Open menu" (click)="drawer.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>{{ title }}</span>
-  </mat-toolbar>
 
-  <div class="main-content-container">
-    <router-outlet />
+    <nav class="sidebar-nav">
+      <a
+        class="sidebar-link"
+        routerLink="/players"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }">
+        <span class="material-icons nav-icon">people</span>
+        <span class="nav-label">Players</span>
+      </a>
+
+      <div class="step-connector">
+        <span class="material-icons connector-arrow">arrow_downward</span>
+      </div>
+
+      <a
+        class="sidebar-link"
+        routerLink="/teams"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }">
+        <span class="material-icons nav-icon">groups</span>
+        <span class="nav-label">Teams</span>
+      </a>
+
+      <div class="step-connector">
+        <span class="material-icons connector-arrow">arrow_downward</span>
+      </div>
+
+      <a
+        class="sidebar-link"
+        routerLink="/matches"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }">
+        <span class="material-icons nav-icon">sports_soccer</span>
+        <span class="nav-label">Matches</span>
+      </a>
+
+      <div class="step-connector">
+        <span class="material-icons connector-arrow">arrow_downward</span>
+      </div>
+
+      <a
+        class="sidebar-link"
+        routerLink="/scoreboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }">
+        <span class="material-icons nav-icon">emoji_events</span>
+        <span class="nav-label">Scoreboard</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button
+        class="theme-btn"
+        (click)="toggleDarkMode()"
+        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+        <span class="material-icons">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</span>
+      </button>
+      <span class="version-label">v{{ version }}</span>
+    </div>
+  </aside>
+
+  <!-- ── Main content area ─────────────────────────────────────────────── -->
+  <div class="main-area">
+    <header class="page-header">
+      <h1 class="page-title">{{ title }}</h1>
+      <button
+        class="header-theme-btn"
+        (click)="toggleDarkMode()"
+        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+        <span class="material-icons">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</span>
+      </button>
+    </header>
+
+    <main class="page-content">
+      <div class="content-inner">
+        <router-outlet />
+      </div>
+    </main>
   </div>
-</mat-drawer-container>
+
+  <!-- ── Mobile bottom navigation ──────────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <a
+      class="bottom-tab"
+      routerLink="/players"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }">
+      <span class="material-icons tab-icon">people</span>
+      <span class="tab-label">Players</span>
+    </a>
+    <span class="tab-arrow" aria-hidden="true">›</span>
+    <a
+      class="bottom-tab"
+      routerLink="/teams"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }">
+      <span class="material-icons tab-icon">groups</span>
+      <span class="tab-label">Teams</span>
+    </a>
+    <span class="tab-arrow" aria-hidden="true">›</span>
+    <a
+      class="bottom-tab"
+      routerLink="/matches"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }">
+      <span class="material-icons tab-icon">sports_soccer</span>
+      <span class="tab-label">Matches</span>
+    </a>
+    <span class="tab-arrow" aria-hidden="true">›</span>
+    <a
+      class="bottom-tab"
+      routerLink="/scoreboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }">
+      <span class="material-icons tab-icon">emoji_events</span>
+      <span class="tab-label">Score</span>
+    </a>
+  </nav>
+</div>

@@ -1,6 +1,5 @@
 import { Component, inject, type OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 import { type Player } from '../db';
 import { PlayerService } from '../services/player.service';
@@ -14,7 +13,7 @@ export interface PlayerScoreboard {
 
 @Component({
   selector: 'app-scoreboard',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [RouterLink],
   templateUrl: './scoreboard.component.html',
   styleUrl: './scoreboard.component.scss',
 })
@@ -38,23 +37,19 @@ export class ScoreboardComponent implements OnInit {
   private async fetchScoreboards() {
     this.playerScoreboard = [];
     const scoreboards = await this.scoreboardService.getTournamentScoreboard(1);
-    if (scoreboards.length === 0) {
-      return;
-    }
+    if (scoreboards.length === 0) return;
 
     scoreboards.forEach((scoreboard) => {
       const playerName = this.getPlayerName(scoreboard.playerId);
-      const currentPlayerScoreboard = this.playerScoreboard.find(
-        (ps) => ps.playerId === scoreboard.playerId
-      );
-      if (currentPlayerScoreboard === undefined) {
+      const current = this.playerScoreboard.find((ps) => ps.playerId === scoreboard.playerId);
+      if (current === undefined) {
         this.playerScoreboard.push({
           playerId: scoreboard.playerId,
-          playerName: playerName,
+          playerName,
           points: scoreboard.points,
         });
       } else {
-        currentPlayerScoreboard.points += scoreboard.points;
+        current.points += scoreboard.points;
       }
     });
 
@@ -62,7 +57,7 @@ export class ScoreboardComponent implements OnInit {
   }
 
   private getPlayerName(playerId: number) {
-    const player = this.players.find((player) => player.id === playerId);
+    const player = this.players.find((p) => p.id === playerId);
     return player?.name ?? 'Unknown';
   }
 

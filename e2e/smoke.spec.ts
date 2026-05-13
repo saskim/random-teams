@@ -7,11 +7,11 @@ const routes = [
   { path: '/scoreboard', title: 'Scoreboard' },
 ];
 
-test('app loads and nav drawer opens', async ({ page }) => {
+test('app loads and shows navigation', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('mat-toolbar')).toBeVisible();
-  await page.click('button[aria-label="Open menu"]');
-  await expect(page.locator('mat-drawer')).toBeVisible();
+  await expect(page.locator('.page-header')).toBeVisible();
+  // Desktop viewport: sidebar is visible
+  await expect(page.locator('.sidebar')).toBeVisible();
 });
 
 for (const { path, title } of routes) {

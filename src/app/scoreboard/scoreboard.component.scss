@@ -1,36 +1,83 @@
-.scoreboard-row, .scoreboard-header {
+.board-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-light);
 }
 
-.scoreboard-header {
-  font-size: 1rem;
-  font-weight: 900;
-  .player-position {
-    width: 40px;
+.board-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-light);
   }
-  .player-name {
-    flex-grow: 1;
+
+  &--top {
+    background: var(--surface-2);
   }
 }
-.scoreboard-row {
-  &:nth-of-type(even) {
-    background-color: #efecfc;
+
+.position {
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.medal {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.position-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.player-name {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  min-width: 0;
+}
+
+.score-bar-wrap {
+  width: 80px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @media (max-width: 400px) {
+    display: none;
   }
-  background-color: #f9f7ff;
-  .player-position {
-    width: 40px;
-    font-size: 1.1rem;
-    font-weight: 900;
-  }
-  .player-name {
-    font-size: 1.1rem;
-    flex-grow: 1;
-  }
-  .player-score {
-    font-size: 1.1rem;
-    font-weight: 900;
-  }
+}
+
+.score-bar {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  min-width: 4px;
+}
+
+.points {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  min-width: 3.5rem;
+  text-align: right;
 }

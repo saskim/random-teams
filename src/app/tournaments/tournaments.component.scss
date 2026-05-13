@@ -1,82 +1,290 @@
-.add-tournament {
+.create-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  gap: 1rem;
 }
-.tournaments-list {
+
+.create-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.info-chip {
+  font-size: 0.75rem;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-weight: 500;
+
+  &.remaining {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary-text);
+  }
+}
+
+.create-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Tournament block */
+.tournament-block {
   display: flex;
   flex-direction: column;
+}
 
-  .tournaments {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+.tournament-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
 
-    .tournament-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-      width: 100%;
+.tournament-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+}
 
-      .tournament-title {
-        font-size: 1.1rem;
-        font-weight: 900;
-      }
-    }
+/* Match cards */
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-    .match-list {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.9rem;
-      width: 100%;
-      .match {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin: 0.4rem 0;
-        padding: 0.3rem;
-        border: 1px solid rgba(0, 0, 0, 0.12);
+.match-card {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  min-height: 52px;
+}
 
-        // .goals {
-        //   font-size: 2rem;
-        // }
+.team-col {
+  flex: 1;
+  padding: 0.625rem 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
 
-        .team-name {
-          background-color: #f5f5f5;
-          min-height: 36px;
-        }
-        .team {
-          width: 45%;
-          &.team2 {
-            .team-name, .players {
-              text-align: right;
-            }
-          }
-          .team-name {
-            font-size: 1.1rem;
-          }
-          .winner {
-            color: #ffca28;
-            vertical-align: text-bottom;
-            padding: 0 0.5rem;
-          }
-
-          .players {
-            color: gray;
-            &.collapsed {
-              display: none;
-            }
-          }
-        }
-
-      }
-    }
+  &:hover {
+    background: var(--surface-2);
   }
+}
+
+.team1-col {
+  border-right: 1px solid var(--border-light);
+}
+
+.team2-col {
+  border-left: 1px solid var(--border-light);
+}
+
+.team-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.team2-name-row {
+  justify-content: flex-end;
+}
+
+.match-team-name {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.winner-badge {
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 0.375rem;
+
+  &--right {
+    align-items: flex-end;
+  }
+}
+
+.mini-player {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.match-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.375rem;
+  flex-shrink: 0;
+  min-width: 72px;
+}
+
+.score-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.625rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-width: 56px;
+  text-align: center;
+
+  &:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+  }
+
+  .score {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .score-placeholder {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-text);
+  }
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--primary);
+  }
+}
+
+/* Result dialog */
+.dialog-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dialog-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.dialog-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.goal-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.goal-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.goal-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goal-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface-2);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: var(--primary);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+}
+
+.goal-sep {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-light);
+  padding-bottom: 0.625rem;
+  flex-shrink: 0;
+}
+
+.done-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+
+  input[type='checkbox'] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--primary);
+  }
+}
+
+.dialog-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border-light);
 }

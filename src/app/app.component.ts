@@ -1,35 +1,31 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs';
 
 import { APP_VERSION } from './app-version';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    RouterOutlet,
-  ],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly titleService = inject(Title);
-  protected readonly router = inject(Router);
+  private readonly router = inject(Router);
 
   title = '';
   version = APP_VERSION ?? '1.0.0';
+  isDarkMode = false;
 
   constructor() {
     this.router.events
@@ -51,5 +47,14 @@ export class AppComponent {
         this.title = title;
         this.titleService.setTitle(title);
       });
+
+    // Sync isDarkMode with the class set by the inline <script> in index.html
+    this.isDarkMode = document.documentElement.classList.contains('dark');
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
   }
 }

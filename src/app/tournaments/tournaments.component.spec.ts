@@ -1,4 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { TournamentsComponent } from './tournaments.component';
 
@@ -8,10 +9,10 @@ describe('TournamentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TournamentsComponent]
-    })
-    .compileComponents();
-    
+      imports: [TournamentsComponent],
+      providers: [provideRouter([])],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(TournamentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
