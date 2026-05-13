@@ -26,9 +26,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1.25rem 1rem;
+  padding: 0 1rem;
+  height: 60px;
+  flex-shrink: 0;
   background: var(--brand);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
   .brand-icon {
     color: var(--primary);
@@ -153,7 +154,8 @@
 
 .page-header {
   background: var(--brand);
-  padding: 0.875rem 1.25rem;
+  padding: 0 1.25rem;
+  height: 60px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
