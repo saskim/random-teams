@@ -1,73 +1,160 @@
-<div class="add-tournament">
-  <div>Generate matches for {{ noOfActiveTeams() }} active teams</div>
-  <button mat-mini-fab color="primary" aria-label="Generate matches" (click)="createTournament()">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
+<!-- ── Create tournament ───────────────────────────────────────────────────── -->
+<div class="card mb-4 p-4">
+  <p class="section-label">Tournament</p>
 
-<div class="tournaments-list">
-  @for (tournaments of tournaments; track tournaments) {
-    <div class="tournaments">
-      <div class="tournament-info">
-        <div class="tournament-title">{{ tournaments.title }}</div>
-        <button mat-stroked-button extended color="warn" (click)="deleteTournament(tournaments.id)">
-          <mat-icon>delete</mat-icon>
-          Delete tournament
-        </button>
+  @if (teams.length < 2) {
+    <div class="empty-state">
+      <span class="material-icons">groups</span>
+      <p>
+        You need at least 2 teams to generate matches.<br />
+        <a routerLink="/teams">Create teams first →</a>
+      </p>
+    </div>
+  } @else {
+    <div class="create-row">
+      <div class="create-info">
+        <span class="info-chip">{{ noOfActiveTeams() }} teams</span>
+        <span class="info-chip remaining">
+          {{ noOfRemainingMatches() }} of {{ noOfMatches() }} matches left
+        </span>
       </div>
-      <div>Remaining {{ noOfRemainingMatches() }} of {{ noOfMatches() }} matches</div>
-      <div class="match-list">
-        @for (match of printableMatches(); track match) {
-          <div class="match">
-            <div
-              class="team team1"
-              role="button"
-              tabindex="0"
-              (click)="match.collapsePlayers = !match.collapsePlayers"
-              (keyup.enter)="match.collapsePlayers = !match.collapsePlayers">
-              <div class="team-name">
-                {{ match.team1?.name }}
-                @if (match.team1?.id === match.winnerTeamId) {
-                  <mat-icon class="winner">emoji_events</mat-icon>
-                }
-              </div>
-              @for (player of match.team1?.players; track player) {
-                <div class="players" [class.collapsed]="match.collapsePlayers">
-                  <div>{{ player.name }}</div>
-                </div>
-              }
-            </div>
-            <div class="team-separator">
-              <button mat-stroked-button color="primary" (click)="openResultDialog(match)">
-                @if (match.winnerTeamId >= 0) {
-                  <span>{{ match.team1Goals }}-{{ match.team2Goals }}</span>
-                }
-                @if (match.winnerTeamId < 0) {
-                  <span>Result</span>
-                }
-              </button>
-            </div>
-            <div
-              class="team team2"
-              role="button"
-              tabindex="0"
-              (click)="match.collapsePlayers = !match.collapsePlayers"
-              (keyup.enter)="match.collapsePlayers = !match.collapsePlayers">
-              <div class="team-name">
-                @if (match.team2?.id === match.winnerTeamId) {
-                  <mat-icon class="winner">emoji_events</mat-icon>
-                }
-                {{ match.team2?.name }}
-              </div>
-              @for (player of match.team2?.players; track player) {
-                <div class="players" [class.collapsed]="match.collapsePlayers">
-                  <div>{{ player.name }}</div>
-                </div>
-              }
-            </div>
-          </div>
-        }
+      <div class="create-actions">
+        <button class="btn-fab" aria-label="Generate matches" (click)="createTournament()">
+          <span class="material-icons" style="font-size: 1.2rem">add</span>
+        </button>
       </div>
     </div>
   }
 </div>
+
+<!-- ── Tournament + match list ────────────────────────────────────────────── -->
+@for (tournament of tournaments; track tournament.id) {
+  <div class="tournament-block mb-4">
+    <div class="tournament-header">
+      <span class="tournament-title">{{ tournament.title }}</span>
+      <button class="btn-danger" (click)="deleteTournament(tournament.id)">
+        <span class="material-icons" style="font-size: 1rem">delete</span>
+        Delete
+      </button>
+    </div>
+
+    <div class="match-list">
+      @for (match of printableMatches(); track match.id) {
+        <div class="match-card card">
+          <!-- Team 1 -->
+          <div
+            class="team-col team1-col"
+            role="button"
+            tabindex="0"
+            (click)="match.collapsePlayers = !match.collapsePlayers"
+            (keyup.enter)="match.collapsePlayers = !match.collapsePlayers">
+            <div class="team-name-row">
+              @if (match.team1?.id === match.winnerTeamId) {
+                <span class="winner-badge">🏆</span>
+              }
+              <span class="match-team-name">{{ match.team1?.name }}</span>
+            </div>
+            @if (!match.collapsePlayers) {
+              <div class="player-list">
+                @for (player of match.team1?.players; track player.id) {
+                  <span class="mini-player">{{ player.name }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Score / result button -->
+          <div class="match-center">
+            <button class="score-btn" (click)="openResultDialog(match)">
+              @if (match.winnerTeamId >= 0) {
+                <span class="score">{{ match.team1Goals }}&ndash;{{ match.team2Goals }}</span>
+              } @else {
+                <span class="score-placeholder">Result</span>
+              }
+            </button>
+            <button
+              class="expand-btn"
+              [attr.aria-label]="match.collapsePlayers ? 'Show players' : 'Hide players'"
+              (click)="match.collapsePlayers = !match.collapsePlayers">
+              <span class="material-icons" style="font-size: 1rem">
+                {{ match.collapsePlayers ? 'expand_more' : 'expand_less' }}
+              </span>
+            </button>
+          </div>
+
+          <!-- Team 2 -->
+          <div
+            class="team-col team2-col"
+            role="button"
+            tabindex="0"
+            (click)="match.collapsePlayers = !match.collapsePlayers"
+            (keyup.enter)="match.collapsePlayers = !match.collapsePlayers">
+            <div class="team-name-row team2-name-row">
+              <span class="match-team-name">{{ match.team2?.name }}</span>
+              @if (match.team2?.id === match.winnerTeamId) {
+                <span class="winner-badge">🏆</span>
+              }
+            </div>
+            @if (!match.collapsePlayers) {
+              <div class="player-list player-list--right">
+                @for (player of match.team2?.players; track player.id) {
+                  <span class="mini-player">{{ player.name }}</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
+
+<!-- ── Result dialog (native <dialog>) ───────────────────────────────────── -->
+<dialog #resultDialogEl>
+  @if (dialogFormData) {
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <h2 class="dialog-title">Register result</h2>
+        <button class="btn-icon" aria-label="Close" (click)="closeDialog()">
+          <span class="material-icons" style="font-size: 1.1rem">close</span>
+        </button>
+      </div>
+
+      <div class="dialog-body">
+        <div class="goal-row">
+          <div class="goal-field">
+            <label class="goal-label" for="team1Goals">{{ dialogFormData.team1Name }}</label>
+            <input
+              id="team1Goals"
+              class="goal-input"
+              type="number"
+              min="0"
+              [(ngModel)]="dialogFormData.team1Goals"
+              name="team1Goals" />
+          </div>
+          <span class="goal-sep">vs</span>
+          <div class="goal-field">
+            <label class="goal-label" for="team2Goals">{{ dialogFormData.team2Name }}</label>
+            <input
+              id="team2Goals"
+              class="goal-input"
+              type="number"
+              min="0"
+              [(ngModel)]="dialogFormData.team2Goals"
+              name="team2Goals" />
+          </div>
+        </div>
+
+        <label class="done-label">
+          <input type="checkbox" [(ngModel)]="dialogFormData.done" name="matchDone" />
+          <span>Match has been played</span>
+        </label>
+      </div>
+
+      <div class="dialog-foot">
+        <button class="btn-secondary" (click)="closeDialog()">Cancel</button>
+        <button class="btn-primary" (click)="saveResult()">Save result</button>
+      </div>
+    </div>
+  }
+</dialog>

@@ -1,11 +1,10 @@
 import { Component, model } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 
 import { type PlayerRating } from '../../db';
 
 @Component({
   selector: 'app-star-rating',
-  imports: [MatIconModule],
+  imports: [],
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.scss',
 })

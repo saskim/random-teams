@@ -1,15 +1,28 @@
-.star-rating {
+.stars {
   display: flex;
-}
-.star {
-  cursor: pointer;
+  gap: 1px;
 }
 
-mat-icon {
+.star-btn {
+  background: none;
+  border: none;
+  padding: 2px;
   cursor: pointer;
-  color: #ffca28;
-}
+  line-height: 1;
+  border-radius: 4px;
+  transition: transform 0.1s;
 
-mat-icon.selected {
-  color: #ffca28;
+  &:hover {
+    transform: scale(1.15);
+  }
+
+  .material-icons {
+    font-size: 1.1rem;
+    color: var(--border);
+    transition: color 0.1s;
+  }
+
+  &.filled .material-icons {
+    color: var(--star);
+  }
 }

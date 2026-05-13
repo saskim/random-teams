@@ -1,11 +1,5 @@
 import { Component, inject, type OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { type Player, type PlayerRating } from '../db';
 import { PlayerService } from '../services/player.service';
@@ -17,16 +11,7 @@ export type Field = 'name' | 'rating' | 'isActive';
   selector: 'app-players',
   templateUrl: './players.component.html',
   styleUrl: './players.component.scss',
-  imports: [
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatSlideToggleModule,
-    FormsModule,
-    StarRatingComponent,
-  ],
+  imports: [FormsModule, StarRatingComponent],
 })
 export class PlayersComponent implements OnInit {
   private readonly playerService = inject(PlayerService);
@@ -39,7 +24,7 @@ export class PlayersComponent implements OnInit {
 
   noOfActivePlayers = signal(0);
   noOfPlayers = signal(0);
-  message = signal('You can save players to a file so you can restore them later');
+  message = signal('');
   error = signal('');
 
   ngOnInit() {
@@ -59,27 +44,20 @@ export class PlayersComponent implements OnInit {
   }
 
   async deletePlayer(playerId?: number) {
-    if (playerId === undefined) {
-      return;
-    }
+    if (playerId === undefined) return;
     await this.playerService.deletePlayer(playerId);
     await this.fetchPlayers();
   }
 
   async updatePlayerIsActive(player: Player) {
-    if (player?.id === undefined) {
-      return;
-    }
+    if (player?.id === undefined) return;
     player.isActive = !player.isActive;
-
     await this.playerService.updatePlayer(player.id, { isActive: player.isActive });
     await this.fetchPlayers();
   }
 
   async updatePlayerRating(player: Player, newRating: PlayerRating) {
-    if (player?.id === undefined) {
-      return;
-    }
+    if (player?.id === undefined) return;
     player.rating = newRating;
     await this.playerService.updatePlayer(player.id, { rating: newRating });
     await this.fetchPlayers();
@@ -105,7 +83,7 @@ export class PlayersComponent implements OnInit {
     this.error.set('');
     const success = await this.playerService.persistPlayers();
     if (success) {
-      this.message.set(`Players successfully saved to file 'random-teams.dexie'`);
+      this.message.set(`Players saved to 'random-teams.dexie'`);
     } else {
       this.error.set('Could not save players to file');
     }
@@ -120,6 +98,7 @@ export class PlayersComponent implements OnInit {
       const success = await this.playerService.restorePlayers(file);
       if (success) {
         await this.fetchPlayers();
+        this.message.set('Players restored successfully');
       } else {
         this.error.set('Could not restore players');
       }
@@ -130,7 +109,7 @@ export class PlayersComponent implements OnInit {
     this.players = await this.playerService.getPlayers();
     this.noOfPlayers.set(this.players.length);
     this.noOfActivePlayers.set(this.players.filter((player) => player.isActive).length);
-
+    this.sortBy(this.sortByField);
     this.message.set('');
     this.error.set('');
   }

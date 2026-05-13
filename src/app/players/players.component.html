@@ -1,66 +1,113 @@
-<div class="add-player">
-  <mat-form-field appearance="outline">
-    <mat-label>Add player name</mat-label>
-    <input matInput [(ngModel)]="newPlayerName" name="newPlayerName" />
-  </mat-form-field>
-  <app-star-rating [(rating)]="newPlayerRanking" />
-
-  <button mat-mini-fab color="primary" aria-label="Add player" (click)="addPlayer()">
-    <mat-icon>person_add</mat-icon>
-  </button>
+<!-- ── Add player ─────────────────────────────────────────────────────────── -->
+<div class="card mb-4 p-4">
+  <p class="section-label">Add player</p>
+  <div class="add-row">
+    <input
+      class="text-input"
+      [(ngModel)]="newPlayerName"
+      name="newPlayerName"
+      placeholder="Player name…"
+      (keyup.enter)="newPlayerName && addPlayer()" />
+    <app-star-rating [(rating)]="newPlayerRanking" />
+    <button
+      class="btn-fab"
+      aria-label="Add player"
+      [disabled]="!newPlayerName"
+      (click)="addPlayer()">
+      <span class="material-icons" style="font-size: 1.2rem">person_add</span>
+    </button>
+  </div>
 </div>
 
-<div class="player-list">
-  <p>{{ noOfActivePlayers() }} active players of {{ noOfPlayers() }}</p>
-
-  <div class="player header">
-    <button class="player-name clickable" (click)="sortBy('name')">Name</button>
-    <button class="player-rating clickable" (click)="sortBy('rating')">Rating</button>
-    <button class="active-toggle clickable" (click)="sortBy('isActive')">Active</button>
-    <span class="delete-button clickable"></span>
+<!-- ── Player list ────────────────────────────────────────────────────────── -->
+<div class="card">
+  <!-- Header row -->
+  <div class="list-header">
+    <span class="player-count">
+      <strong>{{ noOfActivePlayers() }}</strong> active of {{ noOfPlayers() }}
+    </span>
+    <div class="sort-chips">
+      <button
+        class="sort-chip"
+        [class.sort-chip--active]="sortByField === 'name'"
+        (click)="sortBy('name')">
+        Name
+      </button>
+      <button
+        class="sort-chip"
+        [class.sort-chip--active]="sortByField === 'rating'"
+        (click)="sortBy('rating')">
+        Rating
+      </button>
+      <button
+        class="sort-chip"
+        [class.sort-chip--active]="sortByField === 'isActive'"
+        (click)="sortBy('isActive')">
+        Active
+      </button>
+    </div>
   </div>
-  @for (player of players; track player) {
-    <div class="player">
+
+  <!-- Empty state -->
+  @if (players.length === 0) {
+    <div class="empty-state">
+      <span class="material-icons">people_outline</span>
+      <p>No players yet.<br />Add your first player above to get started!</p>
+    </div>
+  }
+
+  <!-- Players -->
+  @for (player of players; track player.id; let odd = $odd) {
+    <div
+      class="player-row"
+      [class.player-row--odd]="odd"
+      [class.player-row--inactive]="!player.isActive">
       <span class="player-name">{{ player.name }}</span>
       <app-star-rating
-        class="player-rating"
         [rating]="player.rating"
         (ratingChange)="updatePlayerRating(player, $event)" />
-      <mat-slide-toggle
-        class="active-toggle"
-        color="primary"
-        name="playerIsActive"
-        [checked]="player.isActive"
-        (click)="updatePlayerIsActive(player)" />
-      <button class="delete-button" mat-icon-button (click)="deletePlayer(player.id)">
-        <mat-icon color="warn">delete</mat-icon>
+      <label class="toggle" [attr.aria-label]="player.name + ' active'">
+        <input
+          type="checkbox"
+          [checked]="player.isActive"
+          (change)="updatePlayerIsActive(player)" />
+        <span class="track"></span>
+      </label>
+      <button class="btn-icon-danger" aria-label="Delete player" (click)="deletePlayer(player.id)">
+        <span class="material-icons" style="font-size: 1.1rem">delete</span>
       </button>
     </div>
   }
 </div>
 
-<div class="message">
-  <div>You can save players to a file so you can restore them later.</div>
-  <div>All other data will be lost when you restore.</div>
-  @if (message() !== '') {
-    <div class="success">{{ message() }}</div>
-  }
-  @if (error() !== '') {
-    <mat-error>{{ error() }}</mat-error>
-  }
-</div>
+<!-- ── Backup / restore ───────────────────────────────────────────────────── -->
+<div class="card mt-4 p-4">
+  <p class="section-label">Backup &amp; restore</p>
+  <p class="backup-hint">
+    Save your players to a file. All other data (teams, matches) will be lost when you restore.
+  </p>
 
-<div class="backup-restore-players">
-  <div class="backup-players">
-    <button mat-raised-button color="primary" (click)="persistPlayers()">
-      <mat-icon>save</mat-icon>
-      Save players...
+  @if (message()) {
+    <div class="alert-success mb-3">
+      <span class="material-icons" style="font-size: 1rem">check_circle</span>
+      {{ message() }}
+    </div>
+  }
+  @if (error()) {
+    <div class="alert-error mb-3">
+      <span class="material-icons" style="font-size: 1rem">error</span>
+      {{ error() }}
+    </div>
+  }
+
+  <div class="backup-actions">
+    <button class="btn-secondary" (click)="persistPlayers()">
+      <span class="material-icons" style="font-size: 1rem">save</span>
+      Save players
     </button>
-  </div>
-  <div class="restore-players">
-    <button mat-raised-button color="primary" (click)="fileInput.click()">
-      <mat-icon>upload</mat-icon>
-      Restore players...
+    <button class="btn-secondary" (click)="fileInput.click()">
+      <span class="material-icons" style="font-size: 1rem">upload</span>
+      Restore players
     </button>
     <input type="file" #fileInput (change)="restorePlayers($event)" hidden />
   </div>

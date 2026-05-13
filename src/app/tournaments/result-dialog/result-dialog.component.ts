@@ -1,62 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Component } from '@angular/core';
 
-export interface ResultDialogData {
-  tournamentId: number;
-  matchId: number;
-  team1Id: number;
-  team2Id: number;
-  team1Name: string;
-  team2Name: string;
-  team1Goals: number;
-  team2Goals: number;
-  done: boolean;
-}
-
+// This component is no longer used. The result dialog is now inline in
+// tournaments.component.html using a native <dialog> element.
 @Component({
   selector: 'app-result-dialog',
-  imports: [
-    FormsModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
-  templateUrl: './result-dialog.component.html',
-  styleUrl: './result-dialog.component.scss',
+  imports: [],
+  template: '',
 })
-export class ResultDialogComponent {
-  private readonly dialogRef = inject<MatDialogRef<ResultDialogComponent>>(MatDialogRef);
-
-  protected readonly data = inject<ResultDialogData>(MAT_DIALOG_DATA);
-
-  constructor() {
-    const data = this.data;
-
-    data.done = true;
-  }
-
-  onSave(): void {
-    this.dialogRef.close();
-  }
-
-  onCancel(): void {
-    this.dialogRef.close(false);
-  }
-}
+export class ResultDialogComponent {}
