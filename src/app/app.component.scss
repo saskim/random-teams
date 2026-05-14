@@ -167,6 +167,48 @@
     color: var(--brand-text);
     margin: 0;
     letter-spacing: -0.01em;
+    display: none;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  .brand-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+  }
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brand-text);
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-version {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+
+  @media (min-width: 768px) {
+    display: none;
   }
 }
 
@@ -195,7 +237,7 @@
   }
 
   @media (min-width: 768px) {
-    display: none; /* desktop uses sidebar toggle */
+    display: none;
   }
 }
 

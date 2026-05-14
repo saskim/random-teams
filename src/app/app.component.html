@@ -70,13 +70,20 @@
   <!-- ── Main content area ─────────────────────────────────────────────── -->
   <div class="main-area">
     <header class="page-header">
+      <div class="header-brand">
+        <span class="material-icons brand-icon">sports_soccer</span>
+        <span class="brand-name">RandomTeams</span>
+      </div>
       <h1 class="page-title">{{ title }}</h1>
-      <button
-        class="header-theme-btn"
-        (click)="toggleDarkMode()"
-        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
-        <span class="material-icons">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</span>
-      </button>
+      <div class="header-right">
+        <span class="header-version">v{{ version }}</span>
+        <button
+          class="header-theme-btn"
+          (click)="toggleDarkMode()"
+          [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+          <span class="material-icons">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</span>
+        </button>
+      </div>
     </header>
 
     <main class="page-content">
