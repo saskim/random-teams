@@ -24,6 +24,7 @@ if (!existsSync(ng)) {
   process.exit(1);
 }
 
+run('Lint', ng, ['lint']);
 run('Build', ng, ['build']);
 run('Tests', ng, ['test', '--watch=false']);
 
