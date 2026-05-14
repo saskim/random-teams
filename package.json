@@ -15,7 +15,7 @@
     "lint": "ng lint",
     "e2e": "playwright test",
     "e2e:update": "playwright test --update-snapshots",
-    "prepare": "git config core.hooksPath .githooks"
+    "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && git config core.hooksPath .githooks || true"
   },
   "private": true,
   "dependencies": {
