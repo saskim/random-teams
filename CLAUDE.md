@@ -41,6 +41,18 @@ src/app/
 - **Tests**: co-located `.spec.ts` files, test service logic not implementation details
 - **No barrel files** (`index.ts`) except in `db/`
 
+## Angular 21 Patterns
+
+Always use current Angular idioms — never fall back to pre-v17 alternatives:
+
+- **Control flow**: `@if`, `@for`, `@switch` in templates — never `*ngIf`, `*ngFor`, `*ngSwitch`
+- **Inputs**: `input()` / `input.required()` signal-based — never `@Input()`
+- **Outputs**: `output()` — never `@Output()` + `EventEmitter`
+- **Two-way binding**: `model()` — never `@Input()`/`@Output()` pairs for two-way
+- **Queries**: `viewChild()`, `viewChildren()`, `contentChild()` — never `@ViewChild`/`@ContentChild`
+- **RxJS cleanup**: `takeUntilDestroyed()` (inject `DestroyRef` implicitly) — never manual `ngOnDestroy` + `Subject` teardown
+- **Reactive side effects**: `effect()` for signal-driven side effects — never manual subscriptions just to react to signal changes
+
 ## Branching Strategy
 
 - `main` — production; protected, no direct pushes or commits
@@ -73,7 +85,7 @@ If the scope isn't clear yet, omit the name and let Claude generate a random one
 
 1. **Branch** — start on a `feat/`, `fix/`, or `chore/` branch (worktree or plain checkout).
 2. **Code + tests** — Claude writes logic and the accompanying `.spec.ts` tests in the same pass. No untested logic ships.
-3. **Hooks run automatically** — `after-edit` lints on every file save; `on-stop` runs Playwright when component files change.
+3. **Hooks run automatically** — `after-edit` formats with Prettier on every file save; `on-stop` lints, builds, tests, and runs Playwright when component files change.
 4. **Self-review** — before opening a PR, run `/review` to have Claude check the diff for issues, gaps in test coverage, and CLAUDE.md convention violations.
 5. **Open the PR** — Claude creates it with `gh pr create`, following the title convention (`type: description`) and including a summary + test plan in the body.
 6. **CI gate** — GitHub Actions must go green (lint → build → tests) before merge.
